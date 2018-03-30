@@ -6,11 +6,12 @@ class scenario {
 private:
 	worm worm1; //El escenario debe contener dos worms.
 	worm worm2;
-
-public:
-	//scenario();
 	ALLEGRO_BITMAP * mainStage;
 	ALLEGRO_BITMAP * background;
-	void setInitialPos(worm& wormn);
+
+	bool setBackgroundAndMainStage();
+public:
+	scenario();
+	bool  errorLoading;
 	position getWormPos(wormenum n);
 };

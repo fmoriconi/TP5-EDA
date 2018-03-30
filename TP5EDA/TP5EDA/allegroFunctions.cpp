@@ -8,10 +8,9 @@
 
 using namespace std;
 
-#define SCENARIO "Scenario.png"
-#define BACKGROUND "mountains.png"
 
-bool allegroInit(scenario& stage) {
+
+bool allegroInit(void) {
 
 	bool abort = false;
 	/*Si hay un error, ponemos abort en true de modo tal que la primer condición "abort == false"
@@ -40,32 +39,21 @@ bool allegroInit(scenario& stage) {
 		al_uninstall_system();
 		abort = true;
 	}
-	if ((abort == false) && !((stage.mainStage = al_load_bitmap(SCENARIO)))){
-		cout << "ERROR: Could not initialize bitmaps." << endl;
-		al_shutdown_image_addon();
-		al_shutdown_primitives_addon();
-		al_uninstall_system();
-		abort = true;
-	}
-	if ((abort == false) && !((stage.background = al_load_bitmap(BACKGROUND)))) {
-		cout << "ERROR: Could not initialize bitmaps." << endl;
-		al_shutdown_image_addon();
-		al_shutdown_primitives_addon();
-		al_uninstall_system();
-		abort = true;
-	}
-
-
+	
 
 	return abort;
 
 }
 
-
+void un_init_allegro(void) {
+	al_shutdown_image_addon();
+	al_shutdown_primitives_addon();
+	al_uninstall_system();
+}
 void drawDisplay(scenario& stage) {
 
-	position posw1 = stage.getWormPos(wormn1);
-	position posw2 = stage.getWormPos(wormn2);
+	position posw1 = stage.getWormPos(WORM1);
+	position posw2 = stage.getWormPos(WORM2);
 
 	al_draw_scaled_bitmap(stage.background, 0,0, al_get_bitmap_width(stage.background),al_get_bitmap_height(stage.background),0,0,DISPLAY_WIDTH,DISPLAY_HEIGHT,0); //Dibujo el fondo
 	al_draw_bitmap(stage.mainStage,0, 0, 0); //Dibujo el escenario principal

@@ -13,6 +13,7 @@ private:
 	unsigned int tickCount;
 
 public:
+	worm();
 	void setPos(float x, float y);
 	void refresh(void * userData);
 	void startWalking();

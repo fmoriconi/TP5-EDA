@@ -10,15 +10,18 @@ int main(void) {
 
 	srand(time(NULL));
 
-	scenario stage;
-	ALLEGRO_DISPLAY * display;
 
-	if ((!allegroInit(stage)) && (display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT))){
+	ALLEGRO_DISPLAY * display = NULL;
 
+	if ((!allegroInit()) && (display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT))){
+
+		scenario stage;
+
+		if (stage.errorLoading)
+			un_init_allegro();
 
 		drawDisplay(stage);
 		getchar();
-
 		allegroShutdown(stage);
 	}
 	else {
