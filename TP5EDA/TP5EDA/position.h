@@ -1,8 +1,9 @@
 #pragma once
 
 class position {
+public:
 	float coordX;
 	float coordY;
-public:
+
 	void setPos(float x, float y);
 };

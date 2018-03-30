@@ -63,8 +63,17 @@ bool allegroInit(scenario& stage) {
 
 
 void drawDisplay(scenario& stage) {
-	al_draw_scaled_bitmap(stage.background, 0,0, al_get_bitmap_width(stage.background),al_get_bitmap_height(stage.background),0,0,DISPLAY_WIDTH,DISPLAY_HEIGHT,0);
-	al_draw_bitmap(stage.mainStage,0, 0, 0);
+
+	position posw1 = stage.getWormPos(wormn1);
+	position posw2 = stage.getWormPos(wormn2);
+
+	al_draw_scaled_bitmap(stage.background, 0,0, al_get_bitmap_width(stage.background),al_get_bitmap_height(stage.background),0,0,DISPLAY_WIDTH,DISPLAY_HEIGHT,0); //Dibujo el fondo
+	al_draw_bitmap(stage.mainStage,0, 0, 0); //Dibujo el escenario principal
+
+
+	/* al_draw_bitmap(stage.worm1., posw1.coordX, posw1.coordY,0);
+	al_draw_bitmap(stage.worm2., posw2.coordX, posw2.coordY,0); */ //Dibuja a los worms. Falta definir como obtiene la imagen a dibujar.
+
 	al_flip_display();
 }
 

@@ -16,5 +16,5 @@ public:
 	void setPos(float x, float y);
 	void refresh(void * userData);
 	void startWalking();
-
+	position getPos();
 };

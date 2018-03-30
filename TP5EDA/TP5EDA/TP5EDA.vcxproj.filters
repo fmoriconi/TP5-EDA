@@ -58,5 +58,8 @@
     <Image Include="mountains.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="wwalking\wwalk-F1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
