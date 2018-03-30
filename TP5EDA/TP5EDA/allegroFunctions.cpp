@@ -4,11 +4,10 @@
 #include <allegro5\allegro_image.h>
 #include <allegro5\bitmap.h>
 #include <allegro5\allegro_primitives.h>
+#include "general.h"
 
 using namespace std;
 
-#define DISPLAY_HEIGHT 696
-#define DISPLAY_WIDTH 1920
 #define SCENARIO "Scenario.png"
 #define BACKGROUND "mountains.png"
 
@@ -24,31 +23,31 @@ bool allegroInit(scenario& stage) {
 		abort = true;
 	}
 
-	if ((abort == false) && (!al_init_primitives_addon())) {
+	if ((abort == false) && !(al_init_primitives_addon())) {
 		cout << "ERROR: Could not initialize Allegro Primitives." << endl;
 		abort = true;
 	}
 
-	if ((abort == false) && (!al_install_keyboard())) {
+	if ((abort == false) && !(al_install_keyboard())) {
 		cout << "ERROR: Could not install keyboard." << endl;
 		al_shutdown_primitives_addon();
 		abort = true;
 	}
 
-	if ((abort == false) && (!al_init_image_addon())) {
+	if ((abort == false) && !(al_init_image_addon())) {
 		cout << "ERROR: Could not initialize image addons." << endl;
 		al_shutdown_primitives_addon();
 		al_uninstall_system();
 		abort = true;
 	}
-	if ((abort == false) && (!(stage.mainStage = al_load_bitmap(SCENARIO)))){
+	if ((abort == false) && !((stage.mainStage = al_load_bitmap(SCENARIO)))){
 		cout << "ERROR: Could not initialize bitmaps." << endl;
 		al_shutdown_image_addon();
 		al_shutdown_primitives_addon();
 		al_uninstall_system();
 		abort = true;
 	}
-	if ((abort == false) && (!(stage.background = al_load_bitmap(BACKGROUND)))) {
+	if ((abort == false) && !((stage.background = al_load_bitmap(BACKGROUND)))) {
 		cout << "ERROR: Could not initialize bitmaps." << endl;
 		al_shutdown_image_addon();
 		al_shutdown_primitives_addon();
@@ -62,10 +61,11 @@ bool allegroInit(scenario& stage) {
 
 }
 
-void displayInit() {
 
-	al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
-	
+void drawDisplay(scenario& stage) {
+	al_draw_scaled_bitmap(stage.background, 0,0, al_get_bitmap_width(stage.background),al_get_bitmap_height(stage.background),0,0,DISPLAY_WIDTH,DISPLAY_HEIGHT,0);
+	al_draw_bitmap(stage.mainStage,0, 0, 0);
+	al_flip_display();
 }
 
 void allegroShutdown(scenario& stage)

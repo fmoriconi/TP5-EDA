@@ -1,12 +1,16 @@
 #pragma once
 #include <allegro5\allegro.h>
+#include "worm.h"
 
 class scenario {
-	private:
-		worm worm1; //El escenario debe contener dos worms.
-		worm worm2;
+private:
+	void setInitialPos(worm wormn);
+	worm worm1; //El escenario debe contener dos worms.
+	worm worm2;
 
-	public:
-		ALLEGRO_BITMAP * mainStage;
-		ALLEGRO_BITMAP * background;
+public:
+	//scenario();
+	ALLEGRO_BITMAP * mainStage;
+	ALLEGRO_BITMAP * background;
+
 };

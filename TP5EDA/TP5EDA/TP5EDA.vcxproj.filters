@@ -24,7 +24,7 @@
     <ClCompile Include="position.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="worms.cpp">
+    <ClCompile Include="worm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +41,13 @@
     <ClInclude Include="scenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="worms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="general.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="worm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

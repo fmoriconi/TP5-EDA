@@ -1,8 +1,8 @@
 #pragma once
 #include "scenario.h"
 
-bool allegroInit(); //Función encargada de inicializar Allegro en el programa. Devuelve false si no hay error, true si lo hay.
+bool allegroInit(scenario& stage); //Función encargada de inicializar Allegro en el programa. Devuelve false si no hay error, true si lo hay.
 
-void displayInit();
+void drawDisplay(scenario& stage);
 
-void allegroShutdown(scenario); //Función encargada de destruir Allegro al finalizar el programa.
+void allegroShutdown(scenario& stage); //Función encargada de destruir Allegro al finalizar el programa.
