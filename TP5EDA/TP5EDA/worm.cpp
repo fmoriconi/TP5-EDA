@@ -77,3 +77,8 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	 string str = ss.str();
 	 return str;
  }
+
+
+ ALLEGRO_BITMAP * walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
+ ALLEGRO_BITMAP * jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
+ ALLEGRO_BITMAP * quietImg = { NULL };
