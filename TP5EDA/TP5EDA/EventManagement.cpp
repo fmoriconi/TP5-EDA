@@ -73,28 +73,28 @@ void EventManagement::receiveEvent() {
 			switch (ev.keyboard.keycode) {
 
 			case W1_MOV_RIGHT:
-				this->key_pressed = RIGHT;
+				this->keyPressed = RIGHT;
 				break;
 			case W1_MOV_LEFT:
-				this->key_pressed = LEFT;
+				this->keyPressed = LEFT;
 				break;
 			case W1_MOV_JUMP:
-				this->key_pressed = UP;
+				this->keyPressed = UP;
 				break;
 
 			case W2_MOV_RIGHT:
-				this->key_pressed = RIGHT;
+				this->keyPressed = RIGHT;
 				break;
 			case W2_MOV_LEFT:
-				this->key_pressed = LEFT;
+				this->keyPressed = LEFT;
 				break;
 			case W2_MOV_JUMP:
-				this->key_pressed = UP;
+				this->keyPressed = UP;
 				break;
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
-			this->key_pressed = NO_MOV;
+			this->keyPressed = NO_MOV;
 		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER) {
 

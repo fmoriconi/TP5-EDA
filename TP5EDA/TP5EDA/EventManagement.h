@@ -18,7 +18,7 @@ public:
 
 private:
 
-	int key_pressed;
+	int keyPressed;
 	bool gameFinished;			//boolean that indicates whether the game has finished or not. 
 	bool move;                  //boolean that indicates when actions regarding the movingTimer should be taken.
 	bool redraw;                  //boolean that indicates when actions regarding the drawingTimer should be taken.

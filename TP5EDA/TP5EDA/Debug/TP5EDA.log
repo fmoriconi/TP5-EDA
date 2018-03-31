@@ -1,6 +1,4 @@
-﻿  EventManagement.cpp
-  Main.cpp
-  allegroFunctions.cpp
+﻿  allegroFunctions.cpp
   worm.cpp
   Generating Code...
 worm.obj : error LNK2001: unresolved external symbol "private: static struct ALLEGRO_BITMAP * * worm::walkImgs" (?walkImgs@worm@@0PAPAUALLEGRO_BITMAP@@A)

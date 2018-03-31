@@ -51,15 +51,6 @@ void un_init_allegro(void) {
 	al_shutdown_primitives_addon();
 	al_uninstall_system();
 }
-void drawDisplay(scenario& stage) {
-
-	position posw1 = stage.getWormPos(WORM1);
-	position posw2 = stage.getWormPos(WORM2);
-
-	stage.draw();
-
-	al_flip_display();
-}
 
 void allegroShutdown(scenario& stage)
 {

@@ -7,7 +7,8 @@
 
 using namespace std;
 
-int main(void) {
+int main(void) 
+{
 	
 	srand(time(NULL));
 
@@ -32,7 +33,6 @@ int main(void) {
 				if (!eventHandler.gameIsFinished() && eventHandler.shouldRedraw()) {
 					stage.draw();
 					al_flip_display();
-					//delay??
 				}	
 				
 			}
