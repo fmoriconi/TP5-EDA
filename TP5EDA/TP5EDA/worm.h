@@ -1,13 +1,12 @@
 #pragma once
 
 #include <allegro5\allegro5.h>
+#include <allegro5\allegro_image.h>
 #include "position.h"
 #include "general.h"
 
 #define AMOUNT_OF_WALKING_IMAGES 15		//total amount of different bitmaps that involve the walking process for a worm.
 #define AMOUNT_OF_JUMPING_IMAGES 10		//total amount of different bitmaps that involve the jumping process for a worm.
-
-
 
 class worm {
 private:

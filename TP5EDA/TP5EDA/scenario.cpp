@@ -14,12 +14,8 @@ scenario::scenario() {
 	this->errorLoading = this->setBackgroundAndMainStage();
 
 	if (!this->errorLoading)
-		this->errorLoading = this->worm1.setStateImgs();
-
-	if (!this->errorLoading)
-		this->gameFinished = false;
-	else
-		this->gameFinished = true;
+		this->errorLoading = this->worm1.setStateImgs();			//static method for all worms.
+	
 } 
 
 scenario::~scenario() {
@@ -29,7 +25,7 @@ scenario::~scenario() {
 
 }
 
-position scenario::getWormPos(wormenum n) {
+position scenario::getWormPos(wormEnum_t n) {
 
 	position wormpos;
 	if (n == WORM1) {
@@ -70,8 +66,6 @@ void scenario::draw(void)
 	al_draw_bitmap(this->worm2.getToDrawState(), this->worm2.getPos().coordX, this->worm2.getPos().coordY, 0); 
 }
 
-bool scenario::gameFinished(void) {
-	return this->gameFinished;
-}
+
 
 

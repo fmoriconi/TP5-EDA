@@ -53,26 +53,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	return this->drawState;
 }
 
-ALLEGRO_BITMAP * worm::setNewDrawState(wormState_t newState) {
-	switch (newState)
-	{
-	case QUIET:
-		this->drawState = this->quietImg;
-		break;
-	case WALKING:
 
-		break;
-	case JMP_WARMUP:
-		break;
-	case JUMPING:
-		break;
-	case FALLING:
-		break;
-	default:
-		break;
-	}
-
-}
 
  bool worm::setStateImgs() {
 

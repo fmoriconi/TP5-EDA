@@ -8,14 +8,12 @@ private:
 	worm worm2;
 	ALLEGRO_BITMAP * mainStage;
 	ALLEGRO_BITMAP * background;
-	bool gameFinished;
 	bool setBackgroundAndMainStage();
 
 public:
 	void draw(void);
-	bool gameFinished(void);
 	scenario();
 	virtual ~scenario();
 	bool  errorLoading;
-	position getWormPos(wormenum n);
+	position getWormPos(wormEnum_t n);
 };

@@ -1,5 +1,6 @@
 #include "allegroFunctions.h"
 #include <iostream>
+#include "EventManagement.h"
 #include "scenario.h"
 #include "scenario.cpp"
 #include "general.h"
@@ -14,19 +15,26 @@ int main(void) {
 
 	if ((!allegroInit()) && (display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT))){
 
+		EventManagement eventHandler(display);
 		scenario stage;
 
-		if (stage.errorLoading) {
+		if (stage.errorLoading || eventHandler.errorLoading) {
+			eventHandler.finishGame();			//redundante pero nunca esta de mas.
 			un_init_allegro();
 			cout << "Allegro Error while creating scenario. Press any key to end the program." << endl; //Caso de error
 			getchar();
 		}
 		else {
-			while (!stage.gameFinished()) {
-				//primero falta recibir eventos!!!
-				//handleEvents()!!!!!
-				drawDisplay(stage);
-				//delay??
+			while (!eventHandler.gameIsFinished()) {
+				
+				eventHandler.receiveEvent();
+				eventHandler.handleEvent(stage);
+				if (!eventHandler.gameIsFinished() && eventHandler.shouldRedraw()) {
+					stage.draw();
+					al_flip_display();
+					//delay??
+				}	
+				
 			}
 			
 			getchar();
