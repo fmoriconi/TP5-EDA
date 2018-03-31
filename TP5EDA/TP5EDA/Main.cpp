@@ -7,9 +7,8 @@
 using namespace std;
 
 int main(void) {
-
+	
 	srand(time(NULL));
-
 
 	ALLEGRO_DISPLAY * display = NULL;
 
@@ -17,12 +16,22 @@ int main(void) {
 
 		scenario stage;
 
-		if (stage.errorLoading)
+		if (stage.errorLoading) {
 			un_init_allegro();
-
-		drawDisplay(stage);
-		getchar();
-		allegroShutdown(stage);
+			cout << "Allegro Error while creating scenario. Press any key to end the program." << endl; //Caso de error
+			getchar();
+		}
+		else {
+			while (!stage.gameFinished()) {
+				//primero falta recibir eventos!!!
+				//handleEvents()!!!!!
+				drawDisplay(stage);
+				//delay??
+			}
+			
+			getchar();
+			allegroShutdown(stage);
+		}
 	}
 	else {
 		cout << "Allegro initialization has failed. Press any key to end the program." << endl; //Caso de error
