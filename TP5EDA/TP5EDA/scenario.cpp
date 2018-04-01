@@ -7,15 +7,15 @@
 #define SCENARIO "Scenario.png"
 #define BACKGROUND "mountains.png"
 
-scenario::scenario() {
-	this->worm1 = worm();
-	this->worm2 = worm();
+scenario::scenario() : worm1(WORM1, WQTY), worm2(WORM2, WQTY) {
 
 	this->errorLoading = this->setBackgroundAndMainStage();
 
 	if (!this->errorLoading)
 		this->errorLoading = this->worm1.setStateImgs();			//static method for all worms.
-	
+
+	this->worm1.refresh();
+	this->worm2.refresh();
 } 
 
 scenario::~scenario() {
@@ -58,12 +58,14 @@ bool scenario::setBackgroundAndMainStage(void) {
 
 void scenario::draw(void)
 {
+
 	al_draw_scaled_bitmap(this->background, 0, 0, al_get_bitmap_width(this->background), al_get_bitmap_height(this->background), 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 0); //Dibujo el fondo
 	al_draw_bitmap(this->mainStage, 0, 0, 0); //Dibujo el escenario 
 
+	
 	//draw de los worms en el escenario.
 	al_draw_bitmap(this->worm1.getToDrawState(), this->worm1.getPos().coordX, this->worm1.getPos().coordY, 0);
-	al_draw_bitmap(this->worm2.getToDrawState(), this->worm2.getPos().coordX, this->worm2.getPos().coordY, 0); 
+	al_draw_bitmap(this->worm2.getToDrawState(), this->worm2.getPos().coordX, this->worm2.getPos().coordY, 0);
 }
 
 

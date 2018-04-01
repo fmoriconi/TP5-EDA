@@ -9,16 +9,16 @@ using namespace std;
 #define XMINSTARTINGPOS 701
 #define YSTARTINGPOS 616
 
-#define WALK_IMGS "wwalk - F"
+#define WALK_IMGS "wwalk-F"
 #define JMP_IMGS "wjump-F"
 
-#define WWALK1 "wwalk - F1.png"
+#define WWALK1 "wwalk-F1.png"
 
 string intToString(int i);
 
-worm::worm() {
+worm::worm(wormEnum_t wormN, unsigned int wormQty) {
 	this->estado = QUIET;
-	float startingX = XMINSTARTINGPOS + (rand() % (XMAXSTARTINGPOS - XMINSTARTINGPOS));	
+	float startingX = XMINSTARTINGPOS + (rand() % ((XMAXSTARTINGPOS - XMINSTARTINGPOS)/(wormQty)))*wormN;	//La división divide el escenario por la cantidad de worms, y cada uno aparecerá en su fracción correspondiente de forma ordenada. (Escalable para cualquier cantidad de Worms).
 	this->setPos(startingX, YSTARTINGPOS);
 }
 
@@ -29,6 +29,7 @@ void worm::setPos(float posx, float posy) {
 position worm::getPos() {
 	return pos;
 }
+
 ALLEGRO_BITMAP * worm::getToDrawState() {
 	return this->drawState;
 }
@@ -71,6 +72,12 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	return abort;
 }
 
+ void worm::refresh() {
+	 if (estado == QUIET) {
+		 drawState = walkImgs[0];
+	 }
+ }
+
  string intToString(int i) {
 	 stringstream ss;
 	 ss << i;
@@ -79,6 +86,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
  }
 
 
- ALLEGRO_BITMAP * walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
- ALLEGRO_BITMAP * jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
- ALLEGRO_BITMAP * quietImg = { NULL };
+
+ ALLEGRO_BITMAP * worm::walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
+ ALLEGRO_BITMAP * worm::jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
+ ALLEGRO_BITMAP * worm::quietImg = { NULL };

@@ -10,7 +10,7 @@ public:
 	EventManagement(ALLEGRO_DISPLAY * display);
 	~EventManagement();
 	void receiveEvent();			//checks for events and updates its info accordingly
-	void handleEvent(scenario stage); //applies changes to the scenario object so that the worms and stage will reflect the user input.
+	void handleEvent(scenario& stage); //applies changes to the scenario object so that the worms and stage will reflect the user input.
 	void finishGame(void);			//informs the event manager the game has finished.
 	bool gameIsFinished(void);		//returns true if the game has finished
 	bool shouldRedraw(void);

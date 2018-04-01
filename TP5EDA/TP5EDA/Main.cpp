@@ -19,6 +19,7 @@ int main(void)
 		EventManagement eventHandler(display);
 		scenario stage;
 
+
 		if (stage.errorLoading || eventHandler.errorLoading) {
 			eventHandler.finishGame();			//redundante pero nunca esta de mas.
 			un_init_allegro();
@@ -30,14 +31,14 @@ int main(void)
 				
 				eventHandler.receiveEvent();
 				eventHandler.handleEvent(stage);
-				if (!eventHandler.gameIsFinished() && eventHandler.shouldRedraw()) {
+				if (!eventHandler.gameIsFinished() && !eventHandler.shouldRedraw()) {
 					stage.draw();
 					al_flip_display();
 				}	
-				
+				getchar();
 			}
 			
-			getchar();
+
 			allegroShutdown(stage);
 		}
 	}

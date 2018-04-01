@@ -21,11 +21,12 @@ private:
 
 public:
 	worm();
+	worm(wormEnum_t wormN, unsigned int wormQty);
 	static bool setStateImgs();
 	void setPos(float x, float y);
 	position getPos();
 	ALLEGRO_BITMAP * getToDrawState(); 
 	ALLEGRO_BITMAP * setNewDrawState(wormState_t newState);
-	void refresh(void * userData);
+	void refresh();
 	void startWalking();
 };

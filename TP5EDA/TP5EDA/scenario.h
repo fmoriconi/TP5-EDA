@@ -1,6 +1,8 @@
 #pragma once
 #include <allegro5\allegro.h>
 #include "worm.h"
+#include "general.h"
+
 
 class scenario {
 private:

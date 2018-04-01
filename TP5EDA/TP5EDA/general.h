@@ -6,4 +6,4 @@ typedef enum { RIGHT, LEFT, UP, NO_MOV } wormMoves_t;
 
 #define DISPLAY_HEIGHT 696
 #define DISPLAY_WIDTH 1920
-
+#define WQTY 2 //Cantidad de worms

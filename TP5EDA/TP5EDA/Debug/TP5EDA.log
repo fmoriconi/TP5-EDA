@@ -1,7 +1,7 @@
-﻿  allegroFunctions.cpp
-  worm.cpp
+﻿  EventManagement.cpp
   Generating Code...
-worm.obj : error LNK2001: unresolved external symbol "private: static struct ALLEGRO_BITMAP * * worm::walkImgs" (?walkImgs@worm@@0PAPAUALLEGRO_BITMAP@@A)
-worm.obj : error LNK2001: unresolved external symbol "private: static struct ALLEGRO_BITMAP * * worm::jmpImgs" (?jmpImgs@worm@@0PAPAUALLEGRO_BITMAP@@A)
-worm.obj : error LNK2001: unresolved external symbol "private: static struct ALLEGRO_BITMAP * worm::quietImg" (?quietImg@worm@@0PAUALLEGRO_BITMAP@@A)
-C:\Users\Tomas\source\repos\TP5-EDA\TP5EDA\Debug\TP5EDA.exe : fatal error LNK1120: 3 unresolved externals
+  Compiling...
+  allegroFunctions.cpp
+  Main.cpp
+  Generating Code...
+  TP5EDA.vcxproj -> C:\Users\Franco\Documents\GitHub\TP5-EDA\TP5EDA\Debug\TP5EDA.exe

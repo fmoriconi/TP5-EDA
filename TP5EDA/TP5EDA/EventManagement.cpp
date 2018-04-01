@@ -106,7 +106,8 @@ void EventManagement::receiveEvent() {
 	}
 			
 }
-void EventManagement::handleEvent(scenario stage) {
+
+void EventManagement::handleEvent(scenario& stage) {
 
 }
 
