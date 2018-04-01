@@ -108,6 +108,8 @@ void EventManagement::receiveEvent() {
 }
 
 void EventManagement::handleEvent(scenario& stage) {
+	if (move)
+		stage.handleWormMovement(this->keyPressedWorm, this->keyPressed);
 
 }
 

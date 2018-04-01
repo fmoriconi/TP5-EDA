@@ -68,6 +68,54 @@ void scenario::draw(void)
 	al_draw_bitmap(this->worm2.getToDrawState(), this->worm2.getPos().coordX, this->worm2.getPos().coordY, 0);
 }
 
+void scenario::handleWormMovement(wormEnum_t worm, wormMoves_t direction) {
+	
+	if (worm == WORM1) {
+		//this->handleWormMovement(worm1, direction);
+
+	}
+	else if (worm == WORM2) {
+		//this->handleWormMovement(worm2, direction);
+	}
+	
+}
+void scenario::handleWormMovement(worm & worm, wormMoves_t direction) {
+	
+	if ( ( direction != NO_MOV ) && ( worm.getState() == QUIET ) ) {
+
+		float currentX = worm.getPos().coordX;
+		float currentY = worm.getPos().coordY;
+		
+		switch (direction) {
+		case RIGHT:
+			double desplazamientoX = worm.getDeltaX();
+			if ( (worm.getPos().coordX > XMINSTARTINGPOS) && ( (worm.getPos().coordX + desplazamientoX) < XMAXSTARTINGPOS) ) {
+				worm.setPos(currentX + desplazamientoX, currentY);
+			}
+			else {
+
+			}
+			break;
+		case LEFT:
+			double desplazamientoX = worm.getDeltaX();
+			if (((worm.getPos().coordX - desplazamientoX) > XMINSTARTINGPOS) && (worm.getPos().coordX < XMAXSTARTINGPOS)) {
+				worm.setPos(currentX - desplazamientoX, currentY);
+			}
+			else {
+				
+			}
+			break;
+		case UP:
+			double desplazamientoY = worm.getDeltaY();
+				
+			break;
+		}
+	}
+	
+}
+
+
+
 
 
 

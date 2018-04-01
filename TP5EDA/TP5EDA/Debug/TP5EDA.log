@@ -1,7 +1,6 @@
 ﻿  EventManagement.cpp
-  Generating Code...
-  Compiling...
-  allegroFunctions.cpp
+c:\users\tomas\source\repos\tp5-eda3\tp5eda\tp5eda\eventmanagement.cpp(112): error C2039: 'handleWormMovement': is not a member of 'scenario'
+  c:\users\tomas\source\repos\tp5-eda3\tp5eda\tp5eda\scenario.h(7): note: see declaration of 'scenario'
   Main.cpp
+  worm.cpp
   Generating Code...
-  TP5EDA.vcxproj -> C:\Users\Franco\Documents\GitHub\TP5-EDA\TP5EDA\Debug\TP5EDA.exe

@@ -18,7 +18,8 @@ public:
 
 private:
 
-	int keyPressed;
+	wormEnum_t keyPressedWorm;
+	wormMoves_t keyPressed;
 	bool gameFinished;			//boolean that indicates whether the game has finished or not. 
 	bool move;                  //boolean that indicates when actions regarding the movingTimer should be taken.
 	bool redraw;                  //boolean that indicates when actions regarding the drawingTimer should be taken.

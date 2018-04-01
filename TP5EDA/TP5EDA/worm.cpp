@@ -5,9 +5,7 @@
 
 using namespace std;
 
-#define XMAXSTARTINGPOS 1212
-#define XMINSTARTINGPOS 701
-#define YSTARTINGPOS 616
+
 
 #define WALK_IMGS "wwalk-F"
 #define JMP_IMGS "wjump-F"
@@ -17,9 +15,10 @@ using namespace std;
 string intToString(int i);
 
 worm::worm(wormEnum_t wormN, unsigned int wormQty) {
-	this->estado = QUIET;
 	float startingX = XMINSTARTINGPOS + (rand() % ((XMAXSTARTINGPOS - XMINSTARTINGPOS)/(wormQty)))*wormN;	//La división divide el escenario por la cantidad de worms, y cada uno aparecerá en su fracción correspondiente de forma ordenada. (Escalable para cualquier cantidad de Worms).
 	this->setPos(startingX, YSTARTINGPOS);
+	this->estado = QUIET;
+	this->refresh();
 }
 
 void worm::setPos(float posx, float posy) {
@@ -85,8 +84,13 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	 return str;
  }
 
+ void worm::handleMovement(wormMoves_t direction) {
 
+ }
 
+ wormState_t worm::getState() {
+	 return this->estado;
+ }
  ALLEGRO_BITMAP * worm::walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::quietImg = { NULL };
