@@ -5,8 +5,7 @@
 #include <iostream>
 using namespace std;
 
-#define FPS 60
-#define MOVE_FPS 20
+
 
 #define W1_MOV_RIGHT ALLEGRO_KEY_RIGHT
 #define W1_MOV_LEFT ALLEGRO_KEY_LEFT
@@ -62,10 +61,8 @@ void EventManagement::receiveEvent() {
 
 	if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, en caso de que esta no este vacia.
 	{
-		if (ev.type == ALLEGRO_EVENT_TIMER)
-			this->redraw = true;
 
-		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			this->finishGame();
 			return;
 		}

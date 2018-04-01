@@ -81,33 +81,41 @@ void scenario::handleWormMovement(wormEnum_t worm, wormMoves_t direction) {
 }
 void scenario::handleWormMovement(worm & worm, wormMoves_t direction) {
 	
-	if ( ( direction != NO_MOV ) && ( worm.getState() == QUIET ) ) {
+	if ( direction != NO_MOV ) {
 
-		float currentX = worm.getPos().coordX;
-		float currentY = worm.getPos().coordY;
-		
+		float currentX = worm.getPos().coordX;		
+		float currentY = worm.getPos().coordY;		
+
 		switch (direction) {
 		case RIGHT:
+			/*
 			double desplazamientoX = worm.getDeltaX();
 			if ( (worm.getPos().coordX > XMINSTARTINGPOS) && ( (worm.getPos().coordX + desplazamientoX) < XMAXSTARTINGPOS) ) {
 				worm.setPos(currentX + desplazamientoX, currentY);
 			}
 			else {
 
-			}
+			}*/
+			if (worm.getState() == WALKING_RIGHT) 
+				worm.walkingTick();
+			else if (worm.getState() == QUIET) 
+				worm.startWalking(direction);
+			
+				
 			break;
 		case LEFT:
-			double desplazamientoX = worm.getDeltaX();
-			if (((worm.getPos().coordX - desplazamientoX) > XMINSTARTINGPOS) && (worm.getPos().coordX < XMAXSTARTINGPOS)) {
-				worm.setPos(currentX - desplazamientoX, currentY);
-			}
-			else {
-				
-			}
+			if (worm.getState() == WALKING_LEFT ) 
+				worm.walkingTick();
+			else if (worm.getState() == QUIET) 
+				worm.startWalking(direction);
+			
 			break;
 		case UP:
-			double desplazamientoY = worm.getDeltaY();
-				
+			if (worm.getState() == JUMPING) 
+				worm.jumpingTick();
+			else if (worm.getState() == QUIET) 
+				worm.startJumping();
+			
 			break;
 		}
 	}

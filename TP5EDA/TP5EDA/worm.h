@@ -17,11 +17,14 @@ private:
 	position pos;
 	wormState_t estado;
 	ALLEGRO_BITMAP * drawState;
+	unsigned int tickCount;
 
 	static ALLEGRO_BITMAP * walkImgs[AMOUNT_OF_WALKING_IMAGES];
 	static ALLEGRO_BITMAP * jmpImgs[AMOUNT_OF_JUMPING_IMAGES];
 	static ALLEGRO_BITMAP * quietImg;
-	unsigned int tickCount;
+
+	unsigned int walkIndex;
+	unsigned int jmpIndex;
 
 public:
 	
@@ -30,9 +33,13 @@ public:
 	static bool setStateImgs();
 	void setPos(float x, float y);
 	position getPos();
+
 	ALLEGRO_BITMAP * getToDrawState(); 
 	ALLEGRO_BITMAP * setNewDrawState(wormState_t newState);
 	void refresh();
 	void handleMovement(wormMoves_t direction);
-	void startWalking();
+	void startWalking(wormMoves_t direction);
+	void startJumping();
+	void jumpingTick();
+	void walkingTick();
 };
