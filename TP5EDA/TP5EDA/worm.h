@@ -41,5 +41,5 @@ public:
 	void startWalking(wormMoves_t direction);
 	void startJumping();
 	void jumpingTick();
-	void walkingTick();
+	void walkingTick(wormMoves_t direction);
 };

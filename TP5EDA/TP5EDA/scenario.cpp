@@ -64,22 +64,36 @@ void scenario::draw(void)
 
 	
 	//draw de los worms en el escenario.
-	al_draw_bitmap(this->worm1.getToDrawState(), this->worm1.getPos().coordX, this->worm1.getPos().coordY, 0);
-	al_draw_bitmap(this->worm2.getToDrawState(), this->worm2.getPos().coordX, this->worm2.getPos().coordY, 0);
+	int side1 = 0; //Side será el flag que indica si hay que invertir o no el bitmap.
+	int side2 = 0;
+
+	if (worm1.getState() == WALKING_RIGHT)
+		side1 = 0;
+	else if(worm1.getState() == WALKING_LEFT)
+		side1 = ALLEGRO_FLIP_HORIZONTAL;
+
+	if (worm2.getState() == WALKING_RIGHT)
+		side2 = 0;
+	else if(worm1.getState() == WALKING_LEFT)
+		side2 = ALLEGRO_FLIP_HORIZONTAL;
+
+
+	al_draw_bitmap(this->worm1.getToDrawState(), this->worm1.getPos().coordX, this->worm1.getPos().coordY, side1);
+	al_draw_bitmap(this->worm2.getToDrawState(), this->worm2.getPos().coordX, this->worm2.getPos().coordY, side2);
 }
 
 void scenario::handleWormMovement(wormEnum_t worm, wormMoves_t direction) {
 	
 	if (worm == WORM1) {
-		//this->handleWormMovement(worm1, direction);
+		this->handleWormMovement(worm1, direction);
 
 	}
 	else if (worm == WORM2) {
-		//this->handleWormMovement(worm2, direction);
+		this->handleWormMovement(worm2, direction);
 	}
 	
 }
-void scenario::handleWormMovement(worm & worm, wormMoves_t direction) {
+void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 	
 	if ( direction != NO_MOV ) {
 
@@ -97,7 +111,7 @@ void scenario::handleWormMovement(worm & worm, wormMoves_t direction) {
 
 			}*/
 			if (worm.getState() == WALKING_RIGHT) 
-				worm.walkingTick();
+				worm.walkingTick(RIGHT);
 			else if (worm.getState() == QUIET) 
 				worm.startWalking(direction);
 			
@@ -105,7 +119,7 @@ void scenario::handleWormMovement(worm & worm, wormMoves_t direction) {
 			break;
 		case LEFT:
 			if (worm.getState() == WALKING_LEFT ) 
-				worm.walkingTick();
+				worm.walkingTick(LEFT);
 			else if (worm.getState() == QUIET) 
 				worm.startWalking(direction);
 			

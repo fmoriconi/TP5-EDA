@@ -31,14 +31,13 @@ int main(void)
 				
 				eventHandler.receiveEvent();
 				eventHandler.handleEvent(stage);
-				if (!eventHandler.gameIsFinished() && !eventHandler.shouldRedraw()) {
+				if (!eventHandler.gameIsFinished() && eventHandler.shouldRedraw()) {
 					stage.draw();
 					al_flip_display();
-				}	
-				getchar();
+				}
 			}
 			
-
+			getchar();
 			allegroShutdown(stage);
 		}
 	}

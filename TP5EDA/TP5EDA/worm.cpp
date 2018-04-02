@@ -9,12 +9,16 @@ using namespace std;
 
 #define WALK_IMGS "wwalk-F"
 #define JMP_IMGS "wjump-F"
+#define FILEFORMAT ".png"
 
 #define WWALK1 "wwalk-F1.png"
 
 #define TICK_TIME 60 * 1.0/MOVE_FPS
 #define MIN_WAITING_TICKS 10	
 
+
+#define RIGHTFACTOR 1
+#define LEFTFACTOR -1
 
 string intToString(int i);
 
@@ -50,7 +54,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 
 	for (int i = 0; i < AMOUNT_OF_WALKING_IMAGES; i++) {
 		walkImgs[i] = NULL;
-		string str = WALK_IMGS + intToString(i+1) + ".png";
+		string str = WALK_IMGS + intToString(i+1) + FILEFORMAT;
 
 		if (!(walkImgs[i] = al_load_bitmap(str.c_str()))) {
 			abort = true;
@@ -61,7 +65,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 
 	for (int i = 0; i < AMOUNT_OF_JUMPING_IMAGES; i++) {
 		jmpImgs[i] = NULL;
-		string str = JMP_IMGS + intToString(i + 1) + ".png";
+		string str = JMP_IMGS + intToString(i + 1) + FILEFORMAT;
 
 		if (!(jmpImgs[i] = al_load_bitmap(str.c_str()))){
 			abort = true;
@@ -71,6 +75,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 
 	if (!(quietImg = al_load_bitmap(WWALK1)))
 		abort = true;
+		
 
 	if (abort)
 		std::cout << "ERROR: Could not initialize bitmaps." << std::endl;
@@ -119,10 +124,19 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	 this->drawState = this->jmpImgs[jmpIndex];
 
  }
+
  void worm::jumpingTick() {
 	 this->tickCount++;
  }
- void worm::walkingTick() {
+
+ void worm::walkingTick(wormMoves_t direction) {
+
+	 int side = 0; //Segun la dirección, hará que el desplazamiento en X sea positivo o negativo
+
+	 if (direction == RIGHT)
+		 side = RIGHTFACTOR;
+	 else
+		 side = LEFTFACTOR;
 
 	 this->tickCount++;
 	 double desplazamientoX = 0;
@@ -137,7 +151,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 		 case (MIN_WAITING_TICKS + 28):
 		 case (MIN_WAITING_TICKS + 30):
 		 case (MIN_WAITING_TICKS + 32):
-			 desplazamientoX = 0.25;
+			 desplazamientoX = 0.25 * side;
 			 break;
 
 		 case (MIN_WAITING_TICKS + 2):
@@ -145,20 +159,20 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 		 case (MIN_WAITING_TICKS + 8):
 		 case (MIN_WAITING_TICKS + 10):
 		 case (MIN_WAITING_TICKS + 12):
-			 desplazamientoX = 0.5;
+			 desplazamientoX = 0.5 * side;
 			 break;
 
 		 case (MIN_WAITING_TICKS + 20):
-			 desplazamientoX = 1.25;
+			 desplazamientoX = 1.25 * side;
 			 break;
 
 		 case (MIN_WAITING_TICKS + 14):
 		 case (MIN_WAITING_TICKS + 18):
-			 desplazamientoX = 1.5;
+			 desplazamientoX = 1.5 * side;
 			 break;
 
 		 case (MIN_WAITING_TICKS + 16):
-			 desplazamientoX = 1.75;
+			 desplazamientoX = 1.75 * 1;
 			 break;
 
 		 default:
@@ -167,7 +181,11 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 		 }
 
 		 this->setPos(this->getPos().coordX + desplazamientoX, this->getPos().coordY);
+
+		printf("X: %f Y: %f \n", this->getPos().coordX, this->getPos().coordY);
 		 //FALTA EL LOOP O LLENAR LOS ARREGLOS DE OTRA MANERA!!!!
+
+
 		 if ( (this->walkIndex + 1) < AMOUNT_OF_JUMPING_IMAGES) 
 			 this->walkIndex++;
 		 else 

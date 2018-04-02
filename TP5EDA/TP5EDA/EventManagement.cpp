@@ -40,11 +40,14 @@ EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 	}
 	
 	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(drawingTimer));
 	al_register_event_source(event_queue, al_get_timer_event_source(movingTimer));
 
+	al_start_timer(drawingTimer);
+
 	this->move = false;
-	this->redraw = false;
+	this->redraw = true;
 	this->gameFinished = false;
 }
 
@@ -71,37 +74,62 @@ void EventManagement::receiveEvent() {
 
 			case W1_MOV_RIGHT:
 				this->keyPressed = RIGHT;
+				this->keyPressedWorm = WORM1;
+				al_start_timer(movingTimer);
+				printf("Timer started\n");
 				break;
 			case W1_MOV_LEFT:
 				this->keyPressed = LEFT;
+				this->keyPressedWorm = WORM1;
+				al_start_timer(movingTimer);
+				printf("Timer started\n");
 				break;
 			case W1_MOV_JUMP:
 				this->keyPressed = UP;
+				this->keyPressedWorm = WORM1;
+				al_start_timer(movingTimer);
+				printf("Timer started\n");
 				break;
 
 			case W2_MOV_RIGHT:
 				this->keyPressed = RIGHT;
+				this->keyPressedWorm = WORM2;
+				al_start_timer(movingTimer);
+				printf("Timer started\n");
 				break;
 			case W2_MOV_LEFT:
 				this->keyPressed = LEFT;
+				this->keyPressedWorm = WORM2;
+				al_start_timer(movingTimer);
+				printf("Timer started\n");
 				break;
 			case W2_MOV_JUMP:
 				this->keyPressed = UP;
+				this->keyPressedWorm = WORM2;
+				al_start_timer(movingTimer);
+				printf("Timer started\n");
 				break;
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
 			this->keyPressed = NO_MOV;
+			al_stop_timer(movingTimer);
+			printf("Timer stopped\n");
 		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER) {
 
 			if (ev.timer.source == this->movingTimer)
+			{
 				this->move = true;
+				//printf("Made it to move\n");
+			}
 			else if (ev.timer.source == this->drawingTimer)
+			{
 				this->redraw = true;
+				//printf("Made it to drawingTimer\n");
+			}
 		}
 	}
-			
 }
 
 void EventManagement::handleEvent(scenario& stage) {
@@ -118,7 +146,9 @@ bool EventManagement::gameIsFinished(void) {
 }
 
 bool EventManagement::shouldRedraw(void) {
-	return this->redraw;
+	bool shouldI = redraw;
+	redraw = false;
+	return shouldI;
 }
 
 
