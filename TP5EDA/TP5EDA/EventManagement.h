@@ -23,6 +23,7 @@ private:
 	bool gameFinished;			//boolean that indicates whether the game has finished or not. 
 	bool move;                  //boolean that indicates when actions regarding the movingTimer should be taken.
 	bool redraw;                  //boolean that indicates when actions regarding the drawingTimer should be taken.
+	int framesDrawn;
 
 	ALLEGRO_EVENT_QUEUE * event_queue;
 	ALLEGRO_TIMER * drawingTimer;

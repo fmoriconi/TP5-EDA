@@ -126,6 +126,7 @@ void EventManagement::receiveEvent() {
 			else if (ev.timer.source == this->drawingTimer)
 			{
 				this->redraw = true;
+				framesDrawn++;
 				//printf("Made it to drawingTimer\n");
 			}
 		}
@@ -135,12 +136,16 @@ void EventManagement::receiveEvent() {
 void EventManagement::handleEvent(scenario& stage) {
 	if (move)
 		stage.handleWormMovement(this->keyPressedWorm, this->keyPressed);
-
+	if (framesDrawn == 50) {
+		framesDrawn = 0;
+		move = false;
+	}
 }
 
 void EventManagement::finishGame(void) {
 	this->gameFinished = true;
 }
+
 bool EventManagement::gameIsFinished(void) {
 	return this->gameFinished;
 }

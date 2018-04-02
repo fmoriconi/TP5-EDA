@@ -15,6 +15,7 @@ using namespace std;
 
 #define TICK_TIME 60 * 1.0/MOVE_FPS
 #define MIN_WAITING_TICKS 10	
+#define MAX_TICKS 40	
 
 
 #define RIGHTFACTOR 1
@@ -141,7 +142,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	 this->tickCount++;
 	 double desplazamientoX = 0;
 
-	 if (this->tickCount > MIN_WAITING_TICKS ) {
+	 if ((this->tickCount > MIN_WAITING_TICKS) ) {
 
 		 //http://worms2d.info/Worm_Walking
 
@@ -172,7 +173,7 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 			 break;
 
 		 case (MIN_WAITING_TICKS + 16):
-			 desplazamientoX = 1.75 * 1;
+			 desplazamientoX = 1.75 * side;
 			 break;
 
 		 default:
@@ -180,17 +181,29 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 			 break;
 		 }
 
-		 this->setPos(this->getPos().coordX + desplazamientoX, this->getPos().coordY);
 
-		printf("X: %f Y: %f \n", this->getPos().coordX, this->getPos().coordY);
+		 if ( (this->getPos().coordX + desplazamientoX > XMINSTARTINGPOS) && (this->getPos().coordX + desplazamientoX < XMAXSTARTINGPOS)) {
+			 this->setPos(this->getPos().coordX + desplazamientoX, this->getPos().coordY);
+		 }
+		 else if (this->getPos().coordX + desplazamientoX < XMINSTARTINGPOS) {
+			 this->setPos(XMINSTARTINGPOS, this->getPos().coordY);
+		 }
+		 else if (this->getPos().coordX + desplazamientoX > XMAXSTARTINGPOS) {
+			 this->setPos(XMAXSTARTINGPOS, this->getPos().coordY);
+		 }
+
+		//printf("X: %f Y: %f \n", this->getPos().coordX, this->getPos().coordY);
 		 //FALTA EL LOOP O LLENAR LOS ARREGLOS DE OTRA MANERA!!!!
 
 
-		 if ( (this->walkIndex + 1) < AMOUNT_OF_JUMPING_IMAGES) 
+		 if ( (this->walkIndex + 1) < AMOUNT_OF_WALKING_IMAGES) 
 			 this->walkIndex++;
-		 else 
+		 else {
 			 this->walkIndex = 0;
-		 
+			 this->estado = QUIET;
+			 this->tickCount = 0;
+		 }
+
 		 this->drawState = walkImgs[walkIndex];
 	 }
  }

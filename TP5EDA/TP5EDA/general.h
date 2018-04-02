@@ -9,4 +9,4 @@ typedef enum { RIGHT, LEFT, UP, NO_MOV } wormMoves_t;
 #define WQTY 2 //Cantidad de worms
 
 #define FPS 50
-#define MOVE_FPS 6000
+#define MOVE_FPS 50
