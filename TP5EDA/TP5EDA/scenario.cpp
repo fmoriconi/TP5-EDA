@@ -68,14 +68,14 @@ void scenario::draw(void)
 	int side2 = 0;
 
 	if (worm1.getState() == WALKING_RIGHT)
-		side1 = 0;
-	else if(worm1.getState() == WALKING_LEFT)
 		side1 = ALLEGRO_FLIP_HORIZONTAL;
+	else if(worm1.getState() == WALKING_LEFT)
+		side1 = 0;
 
 	if (worm2.getState() == WALKING_RIGHT)
-		side2 = 0;
-	else if(worm1.getState() == WALKING_LEFT)
 		side2 = ALLEGRO_FLIP_HORIZONTAL;
+	else if(worm1.getState() == WALKING_LEFT)
+		side2 = 0;
 
 
 	al_draw_bitmap(this->worm1.getToDrawState(), this->worm1.getPos().coordX, this->worm1.getPos().coordY, side1);
