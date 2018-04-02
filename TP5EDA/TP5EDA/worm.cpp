@@ -14,8 +14,9 @@ using namespace std;
 #define WWALK1 "wwalk-F1.png"
 
 #define TICK_TIME 60 * 1.0/MOVE_FPS
-#define MIN_WAITING_TICKS 10	
-#define MAX_TICKS 40	
+#define MIN_WAITING_TICKS 10
+#define WARMUPFRAMES 3
+#define WALKFRAMES 45 // 42 + warmup 
 
 
 #define RIGHTFACTOR 1
@@ -24,13 +25,15 @@ using namespace std;
 string intToString(int i);
 
 worm::worm(wormEnum_t wormN, unsigned int wormQty) {
-	float startingX = XMINSTARTINGPOS + (rand() % ((XMAXSTARTINGPOS - XMINSTARTINGPOS)/(wormQty)))*wormN;	//La división divide el escenario por la cantidad de worms, y cada uno aparecerá en su fracción correspondiente de forma ordenada. (Escalable para cualquier cantidad de Worms).
+	float startingX = XMINSTARTINGPOS + ((rand() % ((XMAXSTARTINGPOS - XMINSTARTINGPOS))/(wormQty)))*wormN;	//La división divide el escenario por la cantidad de worms, y cada uno aparecerá en su fracción correspondiente de forma ordenada. (Escalable para cualquier cantidad de Worms).
 	this->jmpIndex = 0;
 	this->walkIndex = 0;
+	this->frameNum = 0;
 	this->setPos(startingX, YSTARTINGPOS);
 	this->estado = QUIET;
 	this->refresh();
-
+	this->facedSide = RIGHT;
+	this->loopIsOver = false;
 }
 
 void worm::setPos(float posx, float posy) {
@@ -45,7 +48,9 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	return this->drawState;
 }
 
-
+wormMoves_t worm::getFacedSide() {
+	return this->facedSide;
+}
 
  bool worm::setStateImgs() {
 
@@ -139,47 +144,44 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 	 else
 		 side = LEFTFACTOR;
 
-	 this->tickCount++;
 	 double desplazamientoX = 0;
 
-	 if ((this->tickCount > MIN_WAITING_TICKS) ) {
 
-		 //http://worms2d.info/Worm_Walking
+	 if (!((this->walkIndex) < AMOUNT_OF_WALKING_IMAGES-1))
+	 {
+		 this->walkIndex = 0;
 
-		 switch (this->tickCount) {
+	 }
 
-		 case MIN_WAITING_TICKS + 24:
-		 case (MIN_WAITING_TICKS + 28):
-		 case (MIN_WAITING_TICKS + 30):
-		 case (MIN_WAITING_TICKS + 32):
-			 desplazamientoX = 0.25 * side;
-			 break;
 
-		 case (MIN_WAITING_TICKS + 2):
-		 case (MIN_WAITING_TICKS + 6):
-		 case (MIN_WAITING_TICKS + 8):
-		 case (MIN_WAITING_TICKS + 10):
-		 case (MIN_WAITING_TICKS + 12):
-			 desplazamientoX = 0.5 * side;
-			 break;
 
-		 case (MIN_WAITING_TICKS + 20):
-			 desplazamientoX = 1.25 * side;
-			 break;
+	 if (this->frameNum < WARMUPFRAMES) {
+		 this->drawState = walkImgs[walkIndex];
+		 frameNum++;
+		 walkIndex++;
+	 }
+	 else if (this->frameNum == WARMUPFRAMES) {
+		 this->drawState = walkImgs[walkIndex];
+		 walkIndex = 0;
+		 frameNum++;
 
-		 case (MIN_WAITING_TICKS + 14):
-		 case (MIN_WAITING_TICKS + 18):
-			 desplazamientoX = 1.5 * side;
-			 break;
+	 }
+	 else if (this->frameNum < WALKFRAMES) {
 
-		 case (MIN_WAITING_TICKS + 16):
-			 desplazamientoX = 1.75 * side;
-			 break;
-
-		 default:
-			 desplazamientoX = 0;
-			 break;
+		 this->drawState = walkImgs[walkIndex];
+		 frameNum++;
+		 walkIndex++;
+		 if (walkIndex == 13) {
+			desplazamientoX = (27.0 * (double)side) / 3.0;
+			walkIndex == 0;
 		 }
+	 }
+	 else {
+		 frameNum = 0;
+		 this->estado = QUIET;
+		 this->loopIsOver = true;
+	 }
+
 
 
 		 if ( (this->getPos().coordX + desplazamientoX > XMINSTARTINGPOS) && (this->getPos().coordX + desplazamientoX < XMAXSTARTINGPOS)) {
@@ -192,25 +194,68 @@ ALLEGRO_BITMAP * worm::getToDrawState() {
 			 this->setPos(XMAXSTARTINGPOS, this->getPos().coordY);
 		 }
 
+
+
+
 		//printf("X: %f Y: %f \n", this->getPos().coordX, this->getPos().coordY);
 		 //FALTA EL LOOP O LLENAR LOS ARREGLOS DE OTRA MANERA!!!!
 
 
-		 if ( (this->walkIndex + 1) < AMOUNT_OF_WALKING_IMAGES) 
-			 this->walkIndex++;
-		 else {
-			 this->walkIndex = 0;
-			 this->estado = QUIET;
-			 this->tickCount = 0;
-		 }
+		 
 
-		 this->drawState = walkImgs[walkIndex];
-	 }
- }
+		 // printf("%d \n", direction);
+
+		 /* if ((this->tickCount > MIN_WAITING_TICKS) ) {
+
+		 //http://worms2d.info/Worm_Walking
+
+		 switch (this->tickCount) {
+
+		 case MIN_WAITING_TICKS + 24:
+		 case (MIN_WAITING_TICKS + 28):
+		 case (MIN_WAITING_TICKS + 30):
+		 case (MIN_WAITING_TICKS + 32):
+		 desplazamientoX = 0.25 * side;
+		 break;
+
+		 case (MIN_WAITING_TICKS + 2):
+		 case (MIN_WAITING_TICKS + 6):
+		 case (MIN_WAITING_TICKS + 8):
+		 case (MIN_WAITING_TICKS + 10):
+		 case (MIN_WAITING_TICKS + 12):
+		 desplazamientoX = 0.5 * side;
+		 break;
+
+		 case (MIN_WAITING_TICKS + 20):
+		 desplazamientoX = 1.25 * side;
+		 break;
+
+		 case (MIN_WAITING_TICKS + 14):
+		 case (MIN_WAITING_TICKS + 18):
+		 desplazamientoX = 1.5 * side;
+		 break;
+
+		 case (MIN_WAITING_TICKS + 16):
+		 desplazamientoX = 1.75 * side;
+		 break;
+
+		 default:
+		 desplazamientoX = 0;
+		 break;
+		 }*/
+
+}
 
  void worm::handleMovement(wormMoves_t direction) {
 
  }
+
+ void worm::setFacedSide(wormMoves_t direction) {
+	 facedSide = direction;
+ }
+
+
+
  ALLEGRO_BITMAP * worm::walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::quietImg = { NULL };

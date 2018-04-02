@@ -20,5 +20,9 @@ public:
 	virtual ~scenario();
 	bool  errorLoading;
 	position getWormPos(wormEnum_t n);
+	wormState_t getWormState(wormEnum_t wormN);
 	void handleWormMovement(wormEnum_t worm, wormMoves_t direction);
+	bool getLoopState(wormEnum_t wormN);
+	bool setLoopState(wormEnum_t wormN, bool setValue);
+
 };

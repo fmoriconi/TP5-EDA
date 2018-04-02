@@ -26,6 +26,11 @@ private:
 	unsigned int walkIndex;
 	unsigned int jmpIndex;
 
+	wormMoves_t facedSide;
+
+	int frameNum;
+	
+	
 public:
 	
 	worm(wormEnum_t wormN, unsigned int wormQty);
@@ -36,10 +41,15 @@ public:
 
 	ALLEGRO_BITMAP * getToDrawState(); 
 	ALLEGRO_BITMAP * setNewDrawState(wormState_t newState);
+
 	void refresh();
 	void handleMovement(wormMoves_t direction);
 	void startWalking(wormMoves_t direction);
 	void startJumping();
 	void jumpingTick();
 	void walkingTick(wormMoves_t direction);
+	wormMoves_t getFacedSide();
+	void setFacedSide(wormMoves_t direction);
+
+	bool loopIsOver; // Corregir
 };
