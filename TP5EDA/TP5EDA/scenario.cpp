@@ -160,3 +160,30 @@ void scenario::tickFor(wormEnum_t wormN) {
 	}
 }
 
+bool scenario::getLoopState(wormEnum_t wormN) {
+	
+	bool loopState = 0;
+	if (wormN == WORM1) {
+		this->worm1.loopIsOver;
+	}
+	else if (wormN == WORM2) {
+		this->worm2.loopIsOver;
+	}
+
+	return loopState;
+}
+
+
+
+void scenario::setLoopState(wormEnum_t wormN, bool setValue) {
+
+	bool loopState = 0;
+
+	if (wormN == WORM1) {
+		this->worm1.loopIsOver = setValue;
+	}
+	else if (wormN == WORM2) {
+		this->worm2.loopIsOver = setValue;
+	}
+
+}

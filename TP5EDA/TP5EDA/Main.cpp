@@ -29,7 +29,7 @@ int main(void)
 		else {
 			while (!eventHandler.gameIsFinished()) {
 				
-				eventHandler.receiveEvent();
+				eventHandler.receiveEvent(stage);
 				eventHandler.handleEvent(stage);
 				if (!eventHandler.gameIsFinished() && eventHandler.shouldRedraw()) {
 					stage.draw();

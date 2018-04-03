@@ -7,13 +7,13 @@ using namespace std;
 
 
 
-#define W1_MOV_RIGHT ALLEGRO_KEY_RIGHT
-#define W1_MOV_LEFT ALLEGRO_KEY_LEFT
-#define W1_MOV_JUMP ALLEGRO_KEY_UP
+#define W2_MOV_RIGHT ALLEGRO_KEY_RIGHT
+#define W2_MOV_LEFT ALLEGRO_KEY_LEFT
+#define W2_MOV_JUMP ALLEGRO_KEY_UP
 
-#define W2_MOV_RIGHT ALLEGRO_KEY_D
-#define W2_MOV_LEFT ALLEGRO_KEY_A
-#define W2_MOV_JUMP ALLEGRO_KEY_W
+#define W1_MOV_RIGHT ALLEGRO_KEY_D
+#define W1_MOV_LEFT ALLEGRO_KEY_A
+#define W1_MOV_JUMP ALLEGRO_KEY_W
 
 EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 {
@@ -24,9 +24,15 @@ EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 		std::cout << "ERROR: Failed to create timer." << std::endl;
 		errorLoading = true;
 	}
-	this->movingTimer = al_create_timer(1.0 / MOVE_FPS);
+	this->movingTimerWorm1 = al_create_timer(1.0 / MOVE_FPS);
+	this->movingTimerWorm2 = al_create_timer(1.0 / MOVE_FPS);
+	
+	if (!errorLoading && !movingTimerWorm1) {
+		std::cout << "ERROR: Failed to create timer." << std::endl;
+		errorLoading = true;
+	}
 
-	if (!errorLoading && !movingTimer) {
+	if (!errorLoading && !movingTimerWorm1) {
 		std::cout << "ERROR: Failed to create timer." << std::endl;
 		errorLoading = true;
 	}
@@ -35,13 +41,18 @@ EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 	if (!errorLoading && !event_queue) {
 		std::cout << "ERROR: failed to create event_queue!" << std::endl;
 		al_destroy_timer(drawingTimer);
-		al_destroy_timer(movingTimer);
+		al_destroy_timer(movingTimerWorm1);
+		al_destroy_timer(movingTimerWorm2);
 		errorLoading = true;
 	}
 
 	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(drawingTimer));
-	al_register_event_source(event_queue, al_get_timer_event_source(movingTimer));
+	al_register_event_source(event_queue, al_get_timer_event_source(movingTimerWorm1));
+	al_register_event_source(event_queue, al_get_timer_event_source(movingTimerWorm2));
+
+	al_start_timer(drawingTimer);
 
 	this->move = false;
 	this->redraw = false;
@@ -52,12 +63,13 @@ EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 EventManagement::~EventManagement()
 {
 	al_destroy_timer(drawingTimer);
-	al_destroy_timer(movingTimer);
+	al_destroy_timer(movingTimerWorm1);
+	al_destroy_timer(movingTimerWorm2);
 	al_destroy_event_queue(event_queue);
 }
 
 //recibe y procesa un evento por teclado. 
-void EventManagement::receiveEvent() {
+void EventManagement::receiveEvent(scenario& stage) {
 
 	if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, en caso de que esta no este vacia.
 	{
@@ -72,27 +84,33 @@ void EventManagement::receiveEvent() {
 			case W1_MOV_RIGHT:
 				this->keyPressed = RIGHT;
 				this->keyPressedWorm = WORM1;
+				al_start_timer(movingTimerWorm1);
 				break;
 			case W1_MOV_LEFT:
 				this->keyPressed = LEFT;
 				this->keyPressedWorm = WORM1;
+				al_start_timer(movingTimerWorm1);
 				break;
 			case W1_MOV_JUMP:
 				this->keyPressed = UP;
 				this->keyPressedWorm = WORM1;
+				al_start_timer(movingTimerWorm1);
 				break;
 
 			case W2_MOV_RIGHT:
 				this->keyPressed = RIGHT;
 				this->keyPressedWorm = WORM2;
+				al_start_timer(movingTimerWorm2);
 				break;
 			case W2_MOV_LEFT:
 				this->keyPressed = LEFT;
 				this->keyPressedWorm = WORM2;
+				al_start_timer(movingTimerWorm2);
 				break;
 			case W2_MOV_JUMP:
 				this->keyPressed = UP;
 				this->keyPressedWorm = WORM2;
+				al_start_timer(movingTimerWorm2);
 				break;
 			}
 		}
@@ -102,29 +120,50 @@ void EventManagement::receiveEvent() {
 			case W1_MOV_RIGHT:
 			case W1_MOV_LEFT:
 			case W1_MOV_JUMP:
-				this->keyPressedWorm = WORM1;
+				if (ev.keyboard.keycode == keyPressed) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+					this->keyPressedWorm = WORM1;
+					al_stop_timer(movingTimerWorm1);
+				}
+
 				break;
 			case W2_MOV_RIGHT:
 			case W2_MOV_LEFT:
 			case W2_MOV_JUMP:
-				this->keyPressedWorm = WORM2;
-				break;
+				if (ev.keyboard.keycode == keyPressed) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+					this->keyPressedWorm = WORM2;
+					al_stop_timer(movingTimerWorm2);
+				}
 			}
 			this->keyPressed = NO_MOV;
 		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER) {
 
-			if (ev.timer.source == this->movingTimer)
+			if ((ev.timer.source == (this->movingTimerWorm1)) || (ev.timer.source == this->movingTimerWorm2))
 				this->move = true;
-			else if (ev.timer.source == this->drawingTimer)
+
+			else if (ev.timer.source == this->drawingTimer) {
+
 				this->redraw = true;
+
+				if (this->move == true && !stage.getLoopState(this->keyPressedWorm)) {
+					this->drawWorm = true;
+				}
+				else
+				{
+					drawWorm = false;
+					this->move = false;
+					stage.setLoopState(this->keyPressedWorm, false);
+
+				}
+			}
 		}
 	}
 
 }
 
 void EventManagement::handleEvent(scenario& stage) {
-	if (this->move) {
+
+	if (this->drawWorm) {
 		if (this->keyPressed == NO_MOV) {			//caso en que se solto la tecla o esta suelta ya.
 			if (this->keyPressedWorm == WORM1) {
 				stage.resetTicksFor(WORM1);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
@@ -138,6 +177,7 @@ void EventManagement::handleEvent(scenario& stage) {
 			stage.handleWormMovement(this->keyPressedWorm, this->keyPressed);
 
 		}
+		this->drawWorm = false; //En falso para que solo se dibuje una vez por frame.
 	}
 
 }

@@ -24,7 +24,7 @@ public:
 	wormState_t getWormState(wormEnum_t wormN);
 	void handleWormMovement(wormEnum_t worm, wormMoves_t direction);
 	bool getLoopState(wormEnum_t wormN);
-	bool setLoopState(wormEnum_t wormN, bool setValue);
+	void setLoopState(wormEnum_t wormN, bool setValue);
 
 
 	void resetTicksFor(wormEnum_t wormN);

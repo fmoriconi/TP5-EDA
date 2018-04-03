@@ -166,7 +166,6 @@ wormMoves_t worm::getFacedSide() {
 		 this->drawState = walkImgs[walkIndex];
 		 walkIndex = 0;
 		 frameNum++;
-
 	 }
 	 else if (this->frameNum < WALKFRAMES) {
 
@@ -205,7 +204,7 @@ wormMoves_t worm::getFacedSide() {
 
 		 
 
-		 // printf("%d \n", direction);
+		//  printf("%d \n", estado);
 
 
 
