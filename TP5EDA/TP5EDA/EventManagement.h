@@ -19,10 +19,15 @@ public:
 private:
 
 	wormEnum_t keyPressedWorm;
-	wormMoves_t keyPressed;
+	wormMoves_t keyPressedWorm1;
+	wormMoves_t keyPressedWorm2;
+	wormState_t lastStateWorm1;
+	wormState_t lastStateWorm2;
 	bool gameFinished;			//boolean that indicates whether the game has finished or not. 
-	bool move;                  //boolean that indicates when actions regarding the movingTimer should be taken.
-	bool drawWorm;
+	bool move1;                  //boolean that indicates when actions regarding the movingTimer should be taken.
+	bool move2;
+	bool drawWorm1;
+	bool drawWorm2;
 	bool redraw;                  //boolean that indicates when actions regarding the drawingTimer should be taken.
 	bool beingheld1;
 	bool beingheld2;

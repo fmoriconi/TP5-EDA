@@ -56,7 +56,8 @@ EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 
 	al_start_timer(drawingTimer);
 
-	this->move = false;
+	this->move1 = false;
+	this->move2 = false;
 	this->redraw = false;
 	this->gameFinished = false;
 }
@@ -76,14 +77,23 @@ void EventManagement::receiveEvent(scenario& stage) {
 	if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, en caso de que esta no este vacia.
 	{
 
-		if (beingheld2){
-			this->move = true;
-			stage.setLoopState(WORM2, false);
-			}
-
 		if (beingheld1) {
-			this->move = true;
+			this->move1 = true;
 			stage.setLoopState(WORM1, false);
+
+		/*	if ((lastStateWorm1 = stage.getWormState(WORM1)) != QUIET) {
+				stage.setWormState(WORM1, lastStateWorm1);
+			}*/
+		}
+
+		if (beingheld2){ // Si mantengo presionado, debo seguir caminando. 
+			this->move2 = true;
+			stage.setLoopState(WORM2, false);
+
+			/*if ((lastStateWorm2 = stage.getWormState(WORM1)) != QUIET) {
+				stage.setWormState(WORM2, lastStateWorm2);
+			}*/
+
 		}
 
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -91,89 +101,153 @@ void EventManagement::receiveEvent(scenario& stage) {
 			return;
 		}
 		else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
-			switch (ev.keyboard.keycode) {
+			if (!beingheld1) {
 
-			case W1_MOV_RIGHT:
-				this->keyPressed = RIGHT;
-				this->keyPressedWorm = WORM1;
-				al_start_timer(movingTimerWorm1);
-				this->beingheld1 = true;
-				break;
-			case W1_MOV_LEFT:
-				this->keyPressed = LEFT;
-				this->keyPressedWorm = WORM1;
-				al_start_timer(movingTimerWorm1);
-				this->beingheld1 = true;
-				break;
-			case W1_MOV_JUMP:
-				this->keyPressed = UP;
-				this->keyPressedWorm = WORM1;
-				al_start_timer(movingTimerWorm1);
-				this->beingheld1 = true;
-				break;
+				switch (ev.keyboard.keycode) {
 
-			case W2_MOV_RIGHT:
-				this->keyPressed = RIGHT;
-				this->keyPressedWorm = WORM2;
-				al_start_timer(movingTimerWorm2);
-				this->beingheld2 = true;
-				break;
-			case W2_MOV_LEFT:
-				this->keyPressed = LEFT;
-				this->keyPressedWorm = WORM2;
-				al_start_timer(movingTimerWorm2);
-				this->beingheld2 = true;
-				break;
-			case W2_MOV_JUMP:
-				this->keyPressed = UP;
-				this->keyPressedWorm = WORM2;
-				al_start_timer(movingTimerWorm2);
-				this->beingheld2 = true;
-				break;
+				case W1_MOV_RIGHT:
+					this->keyPressedWorm1 = RIGHT;
+					this->keyPressedWorm = WORM1;
+					al_start_timer(movingTimerWorm1);
+					this->beingheld1 = true;
+					break;
+				case W1_MOV_LEFT:
+					this->keyPressedWorm1 = LEFT;
+					this->keyPressedWorm = WORM1;
+					al_start_timer(movingTimerWorm1);
+					this->beingheld1 = true;
+					break;
+				case W1_MOV_JUMP:
+					this->keyPressedWorm1 = UP;
+					this->keyPressedWorm = WORM1;
+					al_start_timer(movingTimerWorm1);
+					this->beingheld1 = true;
+					break;
+				}
 			}
-		}
+
+			
+
+			if (!beingheld2) {
+				switch (ev.keyboard.keycode) {
+					case W2_MOV_RIGHT:
+						this->keyPressedWorm2 = RIGHT;
+						this->keyPressedWorm = WORM2;
+						al_start_timer(movingTimerWorm2);
+						this->beingheld2 = true;
+						break;
+					case W2_MOV_LEFT:
+						this->keyPressedWorm2 = LEFT;
+						this->keyPressedWorm = WORM2;
+						al_start_timer(movingTimerWorm2);
+						this->beingheld2 = true;
+						break;
+					case W2_MOV_JUMP:
+						this->keyPressedWorm2 = UP;
+						this->keyPressedWorm = WORM2;
+						al_start_timer(movingTimerWorm2);
+						this->beingheld2 = true;
+						break;
+					}
+				}
+			}
 		else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
 			switch (ev.keyboard.keycode)
 			{
 			case W1_MOV_RIGHT:
-			case W1_MOV_LEFT:
-			case W1_MOV_JUMP:
-				if (ev.keyboard.keycode == keyPressed) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+				if (this->keyPressedWorm1 == RIGHT) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
 					this->keyPressedWorm = WORM1;
 					al_stop_timer(movingTimerWorm1);
 					this->beingheld1 = false;
 				}
-
+				break;
+			case W1_MOV_LEFT:
+				if (this->keyPressedWorm1 == LEFT) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+					this->keyPressedWorm = WORM1;
+					al_stop_timer(movingTimerWorm1);
+					this->beingheld1 = false;
+				}
+				break;
+			case W1_MOV_JUMP:
+				if (this->keyPressedWorm1 == UP) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+					this->keyPressedWorm = WORM1;
+					al_stop_timer(movingTimerWorm1);
+					this->beingheld1 = false;
+				}
 				break;
 			case W2_MOV_RIGHT:
-			case W2_MOV_LEFT:
-			case W2_MOV_JUMP:
-				if (ev.keyboard.keycode == keyPressed) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+				if (this->keyPressedWorm2 == RIGHT) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
 					this->keyPressedWorm = WORM2;
 					al_stop_timer(movingTimerWorm2);
-					this->beingheld2;
+					this->beingheld2 = false;
+
 				}
+			case W2_MOV_LEFT:
+				if (this->keyPressedWorm2 == LEFT) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+					this->keyPressedWorm = WORM2;
+					al_stop_timer(movingTimerWorm2);
+					this->beingheld2 = false;
+
+				}
+			case W2_MOV_JUMP:
+				if (this->keyPressedWorm2 == UP) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
+					this->keyPressedWorm = WORM2;
+					al_stop_timer(movingTimerWorm2);
+					this->beingheld2 = false;
+
+				}
+				break;
 			}
-			this->keyPressed = NO_MOV;
+
 		}
 		else if (ev.type == ALLEGRO_EVENT_TIMER) {
 
-			if ((ev.timer.source == (this->movingTimerWorm1)) || (ev.timer.source == this->movingTimerWorm2))
-				this->move = true;
-
+			if (ev.timer.source == (this->movingTimerWorm1)){
+				this->move1 = true;
+				al_stop_timer(this->movingTimerWorm1);
+			}
+			else if (ev.timer.source == this->movingTimerWorm2) {
+				this->move2 = true;
+				al_stop_timer(this->movingTimerWorm2);
+			}
 			else if (ev.timer.source == this->drawingTimer) {
 
 				this->redraw = true;
 
-				if (this->move == true && !stage.getLoopState(this->keyPressedWorm)) {
-					this->drawWorm = true;
+				printf("WORM1: %d WORM2: %d \n", stage.getLoopState(WORM1), stage.getLoopState(WORM2));
+				if (this->move1 == true && !stage.getLoopState(WORM1)) {
+					this->drawWorm1 = true;
 				}
 				else
 				{
-					drawWorm = false;
-					this->move = false;
-					stage.setLoopState(this->keyPressedWorm, false);
 
+					if (stage.getLoopState(WORM1)) {
+						this->keyPressedWorm1 = NO_MOV;
+						stage.setLoopState(WORM1, false);
+					}
+
+					this->move1 = false;
+					stage.setLoopState(WORM1, false);
+
+					//stage.setWormState(WORM2, QUIET);
+					//printf("move1 en falso \n");
+				}
+
+				if (this->move2 == true && !stage.getLoopState(WORM2)) {
+					this->drawWorm2 = true;
+				}
+				else
+				{
+					//printf("WORM2 NO CAMINA \n");
+					this->move2 = false;
+
+					if (stage.getLoopState(WORM2)) {
+						this->keyPressedWorm2 = NO_MOV;
+						stage.setLoopState(WORM2, false);
+					}
+
+					//stage.setWormState(WORM2, QUIET);
+					//printf("move2 en falso \n");
 				}
 			}
 		}
@@ -183,21 +257,32 @@ void EventManagement::receiveEvent(scenario& stage) {
 
 void EventManagement::handleEvent(scenario& stage) {
 
-	if (this->drawWorm) {
-		if (this->keyPressed == NO_MOV) {			//caso en que se solto la tecla o esta suelta ya.
-			if (this->keyPressedWorm == WORM1) {
+	if (this->drawWorm1) {
+		if (this->keyPressedWorm1 == NO_MOV) {			//caso en que se solto la tecla o esta suelta ya.
 				stage.resetTicksFor(WORM1);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
 			}
-			else if (this->keyPressedWorm == WORM2) {
-				stage.resetTicksFor(WORM2);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
-			}
+		else if (this->keyPressedWorm1 == NO_MOV) {
+				stage.resetTicksFor(WORM1);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
 		}
 		else {
-			stage.tickFor(this->keyPressedWorm);
-			stage.handleWormMovement(this->keyPressedWorm, this->keyPressed);
-
+			stage.tickFor(WORM1);
+			stage.handleWormMovement(WORM1, this->keyPressedWorm1);
 		}
-		this->drawWorm = false; //En falso para que solo se dibuje una vez por frame.
+		this->drawWorm1 = false; //En falso para que solo se dibuje una vez por frame.
+	}
+
+	if (this->drawWorm2) {
+		if (this->keyPressedWorm2 == NO_MOV) {			//caso en que se solto la tecla o esta suelta ya.
+			stage.resetTicksFor(WORM2);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
+		}
+		else if (this->keyPressedWorm2 == NO_MOV) {
+			stage.resetTicksFor(WORM2);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
+		}
+		else {
+			stage.tickFor(WORM2);
+			stage.handleWormMovement(WORM2, this->keyPressedWorm2);
+		}
+		this->drawWorm2 = false; //En falso para que solo se dibuje una vez por frame.
 	}
 
 }

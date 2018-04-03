@@ -19,6 +19,7 @@ private:
 	ALLEGRO_BITMAP * drawState;
 	unsigned int tickCount;
 
+
 	static ALLEGRO_BITMAP * walkImgs[AMOUNT_OF_WALKING_IMAGES];
 	static ALLEGRO_BITMAP * jmpImgs[AMOUNT_OF_JUMPING_IMAGES];
 	static ALLEGRO_BITMAP * quietImg;
@@ -31,11 +32,13 @@ private:
 
 	bool shouldMove;
 	unsigned int ticks;
+	bool loopIsOver;
 
 public:
 	
 	worm(wormEnum_t wormN, unsigned int wormQty);
 	wormState_t getState();
+	void setState(wormState_t state);
 	static bool setStateImgs();
 	void setPos(float x, float y);
 	position getPos();
@@ -52,9 +55,10 @@ public:
 	wormMoves_t getFacedSide();
 	void setFacedSide(wormMoves_t direction);
 
+	bool  getLoop();
+	void setLoop(bool setValue);
+
 	void tick(void);
 	//resetea los ticks del movement para esperar 100ms ppero aparte le dice al worm que no se puede mover!!!
 	void resetTicks();
-
-	bool loopIsOver;
 };

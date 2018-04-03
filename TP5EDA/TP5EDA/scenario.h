@@ -22,6 +22,7 @@ public:
 	bool  errorLoading;
 	position getWormPos(wormEnum_t n);
 	wormState_t getWormState(wormEnum_t wormN);
+	void setWormState(wormEnum_t wormN, wormState_t state);
 	void handleWormMovement(wormEnum_t worm, wormMoves_t direction);
 	bool getLoopState(wormEnum_t wormN);
 	void setLoopState(wormEnum_t wormN, bool setValue);

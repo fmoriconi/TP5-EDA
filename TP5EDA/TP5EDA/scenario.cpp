@@ -164,10 +164,10 @@ bool scenario::getLoopState(wormEnum_t wormN) {
 	
 	bool loopState = 0;
 	if (wormN == WORM1) {
-		this->worm1.loopIsOver;
+		loopState = this->worm1.getLoop();
 	}
 	else if (wormN == WORM2) {
-		this->worm2.loopIsOver;
+		loopState = this->worm2.getLoop();
 	}
 
 	return loopState;
@@ -180,10 +180,20 @@ void scenario::setLoopState(wormEnum_t wormN, bool setValue) {
 	bool loopState = 0;
 
 	if (wormN == WORM1) {
-		this->worm1.loopIsOver = setValue;
+		this->worm1.setLoop(setValue);
 	}
 	else if (wormN == WORM2) {
-		this->worm2.loopIsOver = setValue;
+		this->worm2.setLoop(setValue);
 	}
 
+}
+
+
+void scenario::setWormState(wormEnum_t wormN, wormState_t state) {
+	if (wormN == WORM1) {
+		this->worm1.setState(state);
+	}
+	else if (wormN == WORM2) {
+		this->worm2.setState(state);
+	}
 }

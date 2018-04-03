@@ -182,6 +182,7 @@ wormMoves_t worm::getFacedSide() {
 		 this->estado = QUIET;
 		 this->loopIsOver = true;
 	 }
+	 //printf("%d \n", frameNum);
 
 
 
@@ -199,12 +200,11 @@ wormMoves_t worm::getFacedSide() {
 
 
 		//printf("X: %f Y: %f \n", this->getPos().coordX, this->getPos().coordY);
-		 //FALTA EL LOOP O LLENAR LOS ARREGLOS DE OTRA MANERA!!!!
-
-
 		 
-
-		//  printf("%d \n", estado);
+		//if (estado == QUIET)
+			//printf("QUIET \n");
+		//else
+		//	printf("NOT QUIET\n");
 
 
 
@@ -231,6 +231,22 @@ wormMoves_t worm::getFacedSide() {
 		 this->ticks = 0;		//NO DEBE SER LLAMADO CON RESETTICKS!
 	 }
  }
+
+
+
+bool worm::getLoop() {
+	 return this->loopIsOver;
+ }
+
+void worm::setLoop(bool setValue) {
+	this->loopIsOver = setValue;
+ }
+
+void worm::setState(wormState_t state) {
+	this->estado = state;
+}
+
  ALLEGRO_BITMAP * worm::walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::quietImg = { NULL };
+
