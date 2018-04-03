@@ -23,6 +23,7 @@ private:
 	wormMoves_t keyPressedWorm2;
 	wormState_t lastStateWorm1;
 	wormState_t lastStateWorm2;
+
 	bool gameFinished;			//boolean that indicates whether the game has finished or not. 
 	bool move1;                  //boolean that indicates when actions regarding the movingTimer should be taken.
 	bool move2;

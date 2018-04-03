@@ -21,6 +21,7 @@ EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 	bool beingheld1 = false;
 	bool beingheld2 = false;
 
+
 	this->drawingTimer = al_create_timer(1.0 / FPS);
 	if (!drawingTimer) {
 		std::cout << "ERROR: Failed to create timer." << std::endl;
@@ -106,22 +107,28 @@ void EventManagement::receiveEvent(scenario& stage) {
 				switch (ev.keyboard.keycode) {
 
 				case W1_MOV_RIGHT:
-					this->keyPressedWorm1 = RIGHT;
-					this->keyPressedWorm = WORM1;
-					al_start_timer(movingTimerWorm1);
-					this->beingheld1 = true;
+					if (this->move1 ==false) {
+						this->keyPressedWorm1 = RIGHT;
+						this->keyPressedWorm = WORM1;
+						al_start_timer(movingTimerWorm1);
+						this->beingheld1 = true;
+					}
 					break;
 				case W1_MOV_LEFT:
-					this->keyPressedWorm1 = LEFT;
-					this->keyPressedWorm = WORM1;
-					al_start_timer(movingTimerWorm1);
-					this->beingheld1 = true;
+					if (this->move1 == false) {
+						this->keyPressedWorm1 = LEFT;
+						this->keyPressedWorm = WORM1;
+						al_start_timer(movingTimerWorm1);
+						this->beingheld1 = true;
+					}
 					break;
 				case W1_MOV_JUMP:
-					this->keyPressedWorm1 = UP;
-					this->keyPressedWorm = WORM1;
-					al_start_timer(movingTimerWorm1);
-					this->beingheld1 = true;
+					if (this->move1 == false) {
+						this->keyPressedWorm1 = UP;
+						this->keyPressedWorm = WORM1;
+						al_start_timer(movingTimerWorm1);
+						this->beingheld1 = true;
+					}
 					break;
 				}
 			}
@@ -131,22 +138,28 @@ void EventManagement::receiveEvent(scenario& stage) {
 			if (!beingheld2) {
 				switch (ev.keyboard.keycode) {
 					case W2_MOV_RIGHT:
-						this->keyPressedWorm2 = RIGHT;
-						this->keyPressedWorm = WORM2;
-						al_start_timer(movingTimerWorm2);
-						this->beingheld2 = true;
+						if (this->move2 == false) {
+							this->keyPressedWorm2 = RIGHT;
+							this->keyPressedWorm = WORM2;
+							al_start_timer(movingTimerWorm2);
+							this->beingheld2 = true;
+						}
 						break;
 					case W2_MOV_LEFT:
-						this->keyPressedWorm2 = LEFT;
-						this->keyPressedWorm = WORM2;
-						al_start_timer(movingTimerWorm2);
-						this->beingheld2 = true;
+						if (this->move2 == false) {
+							this->keyPressedWorm2 = LEFT;
+							this->keyPressedWorm = WORM2;
+							al_start_timer(movingTimerWorm2);
+							this->beingheld2 = true;
+						}
 						break;
 					case W2_MOV_JUMP:
-						this->keyPressedWorm2 = UP;
-						this->keyPressedWorm = WORM2;
-						al_start_timer(movingTimerWorm2);
-						this->beingheld2 = true;
+						if (this->move2 == false) {
+							this->keyPressedWorm2 = UP;
+							this->keyPressedWorm = WORM2;
+							al_start_timer(movingTimerWorm2);
+							this->beingheld2 = true;
+						}
 						break;
 					}
 				}

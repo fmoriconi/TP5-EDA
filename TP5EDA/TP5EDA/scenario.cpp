@@ -89,21 +89,7 @@ void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 		float currentY = worm.getPos().coordY;		
 
 
-
-		if (worm.getState() != QUIET) {
-
-			if (direction != UP) {
-				worm.setFacedSide(direction);
-			}
-			worm.walkingTick(direction);
-		}
-		else if (worm.getState() == QUIET) {
-			if (direction != UP) {
-				worm.startWalking(direction);
-			}
-			worm.setFacedSide(direction);
-		}
-		/*switch (direction) {
+		switch (direction) {
 		case RIGHT:
 
 			if (worm.getState() == WALKING_RIGHT) {
@@ -138,7 +124,6 @@ void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 			break;
 			
 		}
-		*/
 	}
 	
 }

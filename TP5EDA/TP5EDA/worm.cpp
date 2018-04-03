@@ -22,6 +22,7 @@ using namespace std;
 #define JUMPFRAMES 32
 #define RIGHTFACTOR 1
 #define LEFTFACTOR -1
+#define VELOCITY 4.5
 
 string intToString(int i);
 
@@ -150,8 +151,8 @@ wormMoves_t worm::getFacedSide() {
 		 side = LEFTFACTOR;
 	 }
 	 
-	 double desplazamientoX = (4.5)*(side)*(cos(degree));
-	 double desplazamientoY = (gravity*(1.0/2)*frameNum*frameNum-(4.5)*(sin(degree))*frameNum+YSTARTINGPOS);
+	 double desplazamientoX = (4.5)*cos(M_PI/3)*(side);
+	 double desplazamientoY = YSTARTINGPOS;
 
 
 
@@ -169,17 +170,19 @@ wormMoves_t worm::getFacedSide() {
 		
 	 }
 	 else if (this->frameNum <23) {
-
+		 desplazamientoY = (YSTARTINGPOS)-(VELOCITY*sin(M_PI / 3)*(frameNum + 1)) + ((gravity / 2)*(frameNum + 1)*(frameNum + 1));
 		 this->drawState = jmpImgs[jmpIndex];
 		 frameNum++;
 		 
 
 	 }
-	 else if ((this->frameNum >=23) &&(this->frameNum <JUMPFRAMES) )
+	 else if ((this->frameNum >=23) && (this->frameNum <JUMPFRAMES) )
 	 {
+		 desplazamientoY = (YSTARTINGPOS)-(VELOCITY*sin(M_PI / 3)*(frameNum + 1)) + ((gravity / 2)*(frameNum + 1)*(frameNum + 1));
 		 this->drawState = jmpImgs[jmpIndex];
 		 frameNum++;
 		 jmpIndex++;
+
 	 }
 	 else {
 		 frameNum = 0;
@@ -190,15 +193,14 @@ wormMoves_t worm::getFacedSide() {
 	 this->tickCount++;// estaba de antes
 
 
-
 	 if ((this->getPos().coordX + desplazamientoX > XMINSTARTINGPOS) && (this->getPos().coordX + desplazamientoX < XMAXSTARTINGPOS)) {
-		 this->setPos(this->getPos().coordX + desplazamientoX, this->getPos().coordY + desplazamientoY);
+		 this->setPos(this->getPos().coordX + desplazamientoX, desplazamientoY);
 	 }
 	 else if (this->getPos().coordX + desplazamientoX < XMINSTARTINGPOS) {
-		 this->setPos(XMINSTARTINGPOS, this->getPos().coordY+desplazamientoY);
+		 this->setPos(XMINSTARTINGPOS, desplazamientoY);
 	 }
 	 else if (this->getPos().coordX + desplazamientoX > XMAXSTARTINGPOS) {
-		 this->setPos(XMAXSTARTINGPOS, this->getPos().coordY + desplazamientoY);
+		 this->setPos(XMAXSTARTINGPOS, desplazamientoY);
 	 }
 
 
