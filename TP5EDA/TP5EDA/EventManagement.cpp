@@ -18,6 +18,8 @@ using namespace std;
 EventManagement::EventManagement(ALLEGRO_DISPLAY * display)
 {
 	this->errorLoading = false;
+	bool beingheld1 = false;
+	bool beingheld2 = false;
 
 	this->drawingTimer = al_create_timer(1.0 / FPS);
 	if (!drawingTimer) {
@@ -74,6 +76,16 @@ void EventManagement::receiveEvent(scenario& stage) {
 	if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, en caso de que esta no este vacia.
 	{
 
+		if (beingheld2){
+			this->move = true;
+			stage.setLoopState(WORM2, false);
+			}
+
+		if (beingheld1) {
+			this->move = true;
+			stage.setLoopState(WORM1, false);
+		}
+
 		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			this->finishGame();
 			return;
@@ -85,32 +97,38 @@ void EventManagement::receiveEvent(scenario& stage) {
 				this->keyPressed = RIGHT;
 				this->keyPressedWorm = WORM1;
 				al_start_timer(movingTimerWorm1);
+				this->beingheld1 = true;
 				break;
 			case W1_MOV_LEFT:
 				this->keyPressed = LEFT;
 				this->keyPressedWorm = WORM1;
 				al_start_timer(movingTimerWorm1);
+				this->beingheld1 = true;
 				break;
 			case W1_MOV_JUMP:
 				this->keyPressed = UP;
 				this->keyPressedWorm = WORM1;
 				al_start_timer(movingTimerWorm1);
+				this->beingheld1 = true;
 				break;
 
 			case W2_MOV_RIGHT:
 				this->keyPressed = RIGHT;
 				this->keyPressedWorm = WORM2;
 				al_start_timer(movingTimerWorm2);
+				this->beingheld2 = true;
 				break;
 			case W2_MOV_LEFT:
 				this->keyPressed = LEFT;
 				this->keyPressedWorm = WORM2;
 				al_start_timer(movingTimerWorm2);
+				this->beingheld2 = true;
 				break;
 			case W2_MOV_JUMP:
 				this->keyPressed = UP;
 				this->keyPressedWorm = WORM2;
 				al_start_timer(movingTimerWorm2);
+				this->beingheld2 = true;
 				break;
 			}
 		}
@@ -123,6 +141,7 @@ void EventManagement::receiveEvent(scenario& stage) {
 				if (ev.keyboard.keycode == keyPressed) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
 					this->keyPressedWorm = WORM1;
 					al_stop_timer(movingTimerWorm1);
+					this->beingheld1 = false;
 				}
 
 				break;
@@ -132,6 +151,7 @@ void EventManagement::receiveEvent(scenario& stage) {
 				if (ev.keyboard.keycode == keyPressed) { //Tomo acción solo si la tecla que levanté es la que en principio estaba presionando.
 					this->keyPressedWorm = WORM2;
 					al_stop_timer(movingTimerWorm2);
+					this->beingheld2;
 				}
 			}
 			this->keyPressed = NO_MOV;

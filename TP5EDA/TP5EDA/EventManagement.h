@@ -24,6 +24,9 @@ private:
 	bool move;                  //boolean that indicates when actions regarding the movingTimer should be taken.
 	bool drawWorm;
 	bool redraw;                  //boolean that indicates when actions regarding the drawingTimer should be taken.
+	bool beingheld1;
+	bool beingheld2;
+
 
 	ALLEGRO_EVENT_QUEUE * event_queue;
 	ALLEGRO_TIMER * drawingTimer;
