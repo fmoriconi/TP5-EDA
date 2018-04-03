@@ -4,7 +4,9 @@
 #include <allegro5\allegro_image.h>
 #include "position.h"
 #include "general.h"
-
+#define _USE_MATH_DEFINES
+#include <cmath>
+ 
 #define AMOUNT_OF_WALKING_IMAGES 15		//total amount of different bitmaps that involve the walking process for a worm.
 #define AMOUNT_OF_JUMPING_IMAGES 10		//total amount of different bitmaps that involve the jumping process for a worm.
 
@@ -23,6 +25,8 @@ private:
 	static ALLEGRO_BITMAP * walkImgs[AMOUNT_OF_WALKING_IMAGES];
 	static ALLEGRO_BITMAP * jmpImgs[AMOUNT_OF_JUMPING_IMAGES];
 	static ALLEGRO_BITMAP * quietImg;
+	static double gravity;
+	static double degree;
 
 	unsigned int walkIndex;
 	unsigned int jmpIndex;

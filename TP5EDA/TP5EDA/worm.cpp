@@ -19,6 +19,7 @@ using namespace std;
 #define WALKFRAMES 45 // 42 + warmup 
 
 
+#define JUMPFRAMES 32
 #define RIGHTFACTOR 1
 #define LEFTFACTOR -1
 
@@ -119,9 +120,8 @@ wormMoves_t worm::getFacedSide() {
 			 this->estado = WALKING_LEFT;
 			 break;
 		 }
-		 this->tickCount = 0;
-		 this->walkIndex = 0;
-		 this->drawState = this->walkImgs[this->walkIndex];
+
+		 //this->drawState = this->walkImgs[this->walkIndex];
 	 }
 
  }
@@ -138,7 +138,70 @@ wormMoves_t worm::getFacedSide() {
  }
 
  void worm::jumpingTick() {
-	 this->tickCount++;
+	 
+	 int side = 0;
+
+	 if (this->facedSide == RIGHT)
+	 {
+		 side = RIGHTFACTOR;
+	 }
+	 else
+	 {
+		 side = LEFTFACTOR;
+	 }
+	 
+	 double desplazamientoX = (4.5)*(side)*(cos(degree));
+	 double desplazamientoY = (gravity*(1.0/2)*frameNum*frameNum-(4.5)*(sin(degree))*frameNum+YSTARTINGPOS);
+
+
+
+	 if (!((this->jmpIndex) < (AMOUNT_OF_JUMPING_IMAGES - 1)))
+	 {
+		 this->jmpIndex = 0;
+	 }
+
+	 if (this->frameNum <2 ) {
+
+		 this->drawState = jmpImgs[jmpIndex];
+		 frameNum++;
+		 jmpIndex++;
+
+		
+	 }
+	 else if (this->frameNum <23) {
+
+		 this->drawState = jmpImgs[jmpIndex];
+		 frameNum++;
+		 
+
+	 }
+	 else if ((this->frameNum >=23) &&(this->frameNum <JUMPFRAMES) )
+	 {
+		 this->drawState = jmpImgs[jmpIndex];
+		 frameNum++;
+		 jmpIndex++;
+	 }
+	 else {
+		 frameNum = 0;
+		 this->estado = QUIET;
+		 this->loopIsOver = true;
+	 }
+
+	 this->tickCount++;// estaba de antes
+
+
+
+	 if ((this->getPos().coordX + desplazamientoX > XMINSTARTINGPOS) && (this->getPos().coordX + desplazamientoX < XMAXSTARTINGPOS)) {
+		 this->setPos(this->getPos().coordX + desplazamientoX, this->getPos().coordY + desplazamientoY);
+	 }
+	 else if (this->getPos().coordX + desplazamientoX < XMINSTARTINGPOS) {
+		 this->setPos(XMINSTARTINGPOS, this->getPos().coordY+desplazamientoY);
+	 }
+	 else if (this->getPos().coordX + desplazamientoX > XMAXSTARTINGPOS) {
+		 this->setPos(XMAXSTARTINGPOS, this->getPos().coordY + desplazamientoY);
+	 }
+
+
  }
 
  void worm::walkingTick(wormMoves_t direction) {
@@ -213,9 +276,7 @@ wormMoves_t worm::getFacedSide() {
 
 }
 
- void worm::handleMovement(wormMoves_t direction) {
 
- }
 
  void worm::setFacedSide(wormMoves_t direction) {
 	 facedSide = direction;
@@ -260,3 +321,5 @@ void worm::setMove(bool setValue) {
  ALLEGRO_BITMAP * worm::jmpImgs[AMOUNT_OF_JUMPING_IMAGES] = { NULL };
  ALLEGRO_BITMAP * worm::quietImg = { NULL };
 
+ double worm::gravity = 0.24;
+ double worm::degree = 60 * 2 * M_PI;

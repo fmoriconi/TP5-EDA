@@ -261,10 +261,13 @@ void EventManagement::handleEvent(scenario& stage) {
 		if (this->keyPressedWorm1 == NO_MOV) {			//caso en que se solto la tecla o esta suelta ya.
 				stage.resetTicksFor(WORM1);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
 			}
-		else if (this->keyPressedWorm1 == NO_MOV) {
-				stage.resetTicksFor(WORM1);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
+		else if ((this->keyPressedWorm1 == RIGHT) || (this->keyPressedWorm1== LEFT))
+		{
+			stage.tickFor(WORM1);
+			stage.handleWormMovement(WORM1, this->keyPressedWorm1);
 		}
-		else {
+		else if (this->keyPressedWorm1 == UP)
+		{
 			stage.tickFor(WORM1);
 			stage.handleWormMovement(WORM1, this->keyPressedWorm1);
 		}
@@ -275,10 +278,13 @@ void EventManagement::handleEvent(scenario& stage) {
 		if (this->keyPressedWorm2 == NO_MOV) {			//caso en que se solto la tecla o esta suelta ya.
 			stage.resetTicksFor(WORM2);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
 		}
-		else if (this->keyPressedWorm2 == NO_MOV) {
-			stage.resetTicksFor(WORM2);			//RESETEA EL TIEMPO DE ESPERA PERO ADEMAS DICE QUE NO SE PUEDE MOVER EL WORM!!!
+		else if ((this->keyPressedWorm2 == RIGHT) || (this->keyPressedWorm2 == LEFT))
+		{
+			stage.tickFor(WORM2);
+			stage.handleWormMovement(WORM2, this->keyPressedWorm2);
 		}
-		else {
+		else if (this->keyPressedWorm2 == UP)
+		{
 			stage.tickFor(WORM2);
 			stage.handleWormMovement(WORM2, this->keyPressedWorm2);
 		}
