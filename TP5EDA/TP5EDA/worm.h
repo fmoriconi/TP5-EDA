@@ -27,10 +27,12 @@ private:
 	unsigned int jmpIndex;
 
 	wormMoves_t facedSide;
-
+	bool loopIsOver;
 	int frameNum;
-	
-	
+
+	bool shouldMove;
+	unsigned int ticks;
+
 public:
 	
 	worm(wormEnum_t wormN, unsigned int wormQty);
@@ -51,5 +53,7 @@ public:
 	wormMoves_t getFacedSide();
 	void setFacedSide(wormMoves_t direction);
 
-	bool loopIsOver; // Corregir
+	void tick(void);
+	//resetea los ticks del movement para esperar 100ms ppero aparte le dice al worm que no se puede mover!!!
+	void resetTicks();
 };

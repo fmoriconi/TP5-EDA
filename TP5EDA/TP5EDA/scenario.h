@@ -13,6 +13,7 @@ private:
 	ALLEGRO_BITMAP * background;
 	bool setBackgroundAndMainStage();
 	void handleWormMovement(worm & worm, wormMoves_t direction);
+
 	
 public:
 	void draw(void);
@@ -24,5 +25,9 @@ public:
 	void handleWormMovement(wormEnum_t worm, wormMoves_t direction);
 	bool getLoopState(wormEnum_t wormN);
 	bool setLoopState(wormEnum_t wormN, bool setValue);
+
+
+	void resetTicksFor(wormEnum_t wormN);
+	void tickFor(wormEnum_t wormN);
 
 };

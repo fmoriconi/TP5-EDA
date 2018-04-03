@@ -87,13 +87,12 @@ void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 
 		float currentX = worm.getPos().coordX;		
 		float currentY = worm.getPos().coordY;		
-		//printf("%d \n", direction);
 
 		switch (direction) {
 		case RIGHT:
 
 			if (worm.getState() == WALKING_RIGHT) {
-			//	printf("RIGHT \n");
+
 				worm.walkingTick(RIGHT);
 			}
 			else if (worm.getState() == QUIET) {
@@ -105,7 +104,7 @@ void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 
 		case LEFT:
 			if (worm.getState() == WALKING_LEFT) {
-		//		printf("LEFT\n");
+
 				worm.walkingTick(LEFT);
 			}
 			else if (worm.getState() == QUIET) {
@@ -143,29 +142,21 @@ wormState_t scenario::getWormState(wormEnum_t wormN) {
 
 
 
-bool scenario::getLoopState(wormEnum_t wormN) {
 
-	bool loopState = 0;
-
+void scenario::resetTicksFor(wormEnum_t wormN) {
 	if (wormN == WORM1) {
-		loopState = this->worm1.loopIsOver;
+		worm1.resetTicks();
 	}
 	else if (wormN == WORM2) {
-		loopState = this->worm2.loopIsOver;
+		worm2.resetTicks();
 	}
-	return loopState;
 }
-
-bool scenario::setLoopState(wormEnum_t wormN, bool setValue) {
-
-	bool loopState = 0;
-
+void scenario::tickFor(wormEnum_t wormN) {
 	if (wormN == WORM1) {
-		this->worm1.loopIsOver = setValue;
+		worm1.tick();
 	}
 	else if (wormN == WORM2) {
-		this->worm2.loopIsOver = setValue;
+		worm2.tick();
 	}
-	return loopState;
 }
 
