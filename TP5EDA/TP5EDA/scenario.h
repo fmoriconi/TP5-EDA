@@ -30,5 +30,6 @@ public:
 
 	void resetTicksFor(wormEnum_t wormN);
 	void tickFor(wormEnum_t wormN);
+	void setMoving(wormEnum_t wormN, bool setValue);
 
 };

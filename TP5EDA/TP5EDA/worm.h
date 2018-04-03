@@ -33,6 +33,7 @@ private:
 	bool shouldMove;
 	unsigned int ticks;
 	bool loopIsOver;
+	bool amMoving;
 
 public:
 	
@@ -52,11 +53,14 @@ public:
 	void startJumping();
 	void jumpingTick();
 	void walkingTick(wormMoves_t direction);
+
 	wormMoves_t getFacedSide();
 	void setFacedSide(wormMoves_t direction);
 
-	bool  getLoop();
+	bool getLoop();
 	void setLoop(bool setValue);
+	bool getMoving();
+	void setMove(bool setValue);
 
 	void tick(void);
 	//resetea los ticks del movement para esperar 100ms ppero aparte le dice al worm que no se puede mover!!!

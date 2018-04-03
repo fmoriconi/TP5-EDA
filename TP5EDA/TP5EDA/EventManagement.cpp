@@ -81,9 +81,9 @@ void EventManagement::receiveEvent(scenario& stage) {
 			this->move1 = true;
 			stage.setLoopState(WORM1, false);
 
-		/*	if ((lastStateWorm1 = stage.getWormState(WORM1)) != QUIET) {
+		if ((lastStateWorm1 = stage.getWormState(WORM1)) != QUIET) {
 				stage.setWormState(WORM1, lastStateWorm1);
-			}*/
+			}
 		}
 
 		if (beingheld2){ // Si mantengo presionado, debo seguir caminando. 
@@ -214,7 +214,7 @@ void EventManagement::receiveEvent(scenario& stage) {
 
 				this->redraw = true;
 
-				printf("WORM1: %d WORM2: %d \n", stage.getLoopState(WORM1), stage.getLoopState(WORM2));
+				//printf("WORM1: %d WORM2: %d \n", stage.getLoopState(WORM1), stage.getLoopState(WORM2));
 				if (this->move1 == true && !stage.getLoopState(WORM1)) {
 					this->drawWorm1 = true;
 				}

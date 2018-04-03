@@ -88,7 +88,18 @@ void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 		float currentX = worm.getPos().coordX;		
 		float currentY = worm.getPos().coordY;		
 
-		switch (direction) {
+
+
+		if (worm.getState() != QUIET) {
+
+			worm.setFacedSide(direction);
+			worm.walkingTick(direction);
+		}
+		else if (worm.getState() == QUIET) {
+			worm.startWalking(direction);
+			worm.setFacedSide(direction);
+		}
+		/*switch (direction) {
 		case RIGHT:
 
 			if (worm.getState() == WALKING_RIGHT) {
@@ -115,13 +126,15 @@ void scenario::handleWormMovement(worm& worm, wormMoves_t direction) {
 			break;
 
 		case UP:
-			if (worm.getState() == JUMPING) 
+			if (worm.getState() == JUMPING || worm.getMoving())
 				worm.jumpingTick();
 			else if (worm.getState() == QUIET) 
 				worm.startJumping();
 			
 			break;
+			
 		}
+		*/
 	}
 	
 }
@@ -195,5 +208,14 @@ void scenario::setWormState(wormEnum_t wormN, wormState_t state) {
 	}
 	else if (wormN == WORM2) {
 		this->worm2.setState(state);
+	}
+}
+
+void scenario::setMoving(wormEnum_t wormN, bool setValue) {
+	if (wormN == WORM1) {
+		this->worm1.setMove(setValue);
+	}
+	else if (wormN == WORM2) {
+		this->worm2.setMove(setValue);
 	}
 }

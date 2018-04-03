@@ -35,6 +35,7 @@ worm::worm(wormEnum_t wormN, unsigned int wormQty) {
 	this->facedSide = RIGHT;
 	this->loopIsOver = false;
 	this->shouldMove = false;
+	this->amMoving = false;
 }
 
 void worm::setPos(float posx, float posy) {
@@ -244,6 +245,15 @@ void worm::setLoop(bool setValue) {
 
 void worm::setState(wormState_t state) {
 	this->estado = state;
+}
+
+
+bool worm::getMoving() {
+	return this->amMoving;
+}
+
+void worm::setMove(bool setValue) {
+	this->amMoving = setValue;
 }
 
  ALLEGRO_BITMAP * worm::walkImgs[AMOUNT_OF_WALKING_IMAGES] = { NULL };
